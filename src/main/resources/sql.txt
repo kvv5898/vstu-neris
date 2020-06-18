@@ -1,0 +1,70 @@
+create table new
+(
+equipment_id SERIAL PRIMARY KEY,
+sn TEXT NOT null,
+group_id VARCHAR(4) not null,
+organization_id VARCHAR(4) not null,
+);
+
+create table group
+(
+group_id SERIAL PRIMARY KEY,
+description TEXT,
+model TEXT,
+group_info TEXT,
+);
+
+
+create table organization
+(
+organization_id SERIAL PRIMARY KEY,
+description TEXT,
+tel VARCHAR(8) not null,
+address TEXT,
+guarantee_id VARCHAR(4) not null,
+organization_info TEXT,
+);
+
+create table guarantee
+(
+guarantee_id SERIAL PRIMARY KEY,
+date TEXT NOT null,
+grant_period VARCHAR(4) not null,
+guarantee_info TEXT,
+);
+
+create table history
+(
+history_id SERIAL PRIMARY KEY,
+equipment_id VARCHAR(256) NOT null,
+status TEXT NOT null,
+organization_id VARCHAR(256),
+);
+
+create table user_account
+(
+user_id SERIAL PRIMARY KEY,
+date TEXT NOT null,
+Surname VARCHAR(30) not null,
+First_Name VARCHAR(30) not null,
+Otchestvo VARCHAR(30) not null,
+Otdel VARCHAR(30) not null,
+Tel VARCHAR(30) not null,	
+email varchar(128),
+User_Name VARCHAR(30) not null,
+PASSWORD  VARCHAR(30) not null,
+Rule VARCHAR(10) not null
+);
+
+create table auth
+(
+id SERIAL PRIMARY KEY,
+date TEXT NOT null,
+ip TEXT NOT null,
+host TEXT,
+getway TEXT,
+user_in TEXT,
+pass_in TEXT,
+session TEXT NOT null,
+login_in VARCHAR(8) NOT null
+);
