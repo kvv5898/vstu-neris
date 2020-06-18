@@ -26,6 +26,7 @@ to {
 }
 </style>
   </head> 
+  <a href="${pageContext.request.contextPath}/exit">Выход</a>
   <body>
 	<div class="center">
 		<P>Welcome to the site "Network Equipment Registration information System"</P>

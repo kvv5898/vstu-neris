@@ -59,12 +59,13 @@ Rule VARCHAR(10) not null
 create table auth
 (
 id SERIAL PRIMARY KEY,
-date TEXT NOT null,
+date_start TEXT NOT null,
+date_end TEXT,
 ip TEXT NOT null,
 host TEXT,
 getway TEXT,
 user_in TEXT,
 pass_in TEXT,
 session TEXT NOT null,
-login_in VARCHAR(8) NOT null
+status VARCHAR(8) NOT null
 );
