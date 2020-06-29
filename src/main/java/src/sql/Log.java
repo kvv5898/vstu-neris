@@ -12,9 +12,9 @@ import src.other.date_time;
 
 
 
-public class Log_Auth {
+public class Log {
 
-	public static void Log(Connection conn, //
+	public static void Auth(Connection conn, //
 			String ip, String host, String getway, String user_name, String password, String session, String status)
 			throws SQLException {
 		String sql = "Insert into auth(date_start, ip, host, getway, user_in, pass_in, session, status) values (?,?,?,?,?,?,?,?)";

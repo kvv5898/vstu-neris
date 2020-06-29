@@ -6,8 +6,8 @@
                        http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
      id="WebApp_ID" version="3.0">
   <display-name>vstu-neris</display-name>
-   
-  <listener>
+  
+   <listener>
     <listener-class>src.other.OnlineUsersCounter</listener-class>
   </listener>
   

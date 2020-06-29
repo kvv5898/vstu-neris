@@ -2,6 +2,7 @@ package src.neris.servlet.jsp;
 
 import java.io.IOException;
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,11 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet(urlPatterns = { "/home" })
-public class HomeServlet extends HttpServlet {
+
+@WebServlet(urlPatterns = { "/addgroups" })
+public class Addgroups extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public HomeServlet() {
+	public Addgroups() {
 		super();
 	}
 
@@ -22,7 +24,8 @@ public class HomeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/HomeView.jsp");
+		
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addgroups.jsp");
 
 		dispatcher.forward(request, response);
 
@@ -35,3 +38,4 @@ public class HomeServlet extends HttpServlet {
 		doGet(request, response);
 	}
 }
+

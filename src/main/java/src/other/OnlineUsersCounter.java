@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import src.neris.log.logUser;
 import src.neris.tabl.User_account;
-import src.sql.Log_Auth;
+import src.sql.Log;
 
 @WebListener
 public class OnlineUsersCounter implements HttpSessionListener {
@@ -38,7 +38,7 @@ public class OnlineUsersCounter implements HttpSessionListener {
 	public void sessionDestroyed(HttpSessionEvent event) {
 		Connection conn = logUser.getStoredConnection(event.getSession());
 		try {
-			Log_Auth.date_end(conn, event.getSession().getId());
+			Log.date_end(conn, event.getSession().getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

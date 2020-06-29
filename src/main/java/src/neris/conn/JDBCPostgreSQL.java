@@ -8,9 +8,9 @@ import java.sql.SQLException;
 public class JDBCPostgreSQL {
 
 	// Database credentials
-	static final String DB_URL = "jdbc:postgresql://ec2-54-247-78-30.eu-west-1.compute.amazonaws.com/d2et3uvg9qqd45";
-	static final String USER = "axcaxenuxwqccx";
-	static final String PASS = "94e4da693bcb9e04e12d09364418f78790cae701b4c1054a35ce684e0a168313";
+	static final String DB_URL = "jdbc:postgresql://ec2-54-217-236-206.eu-west-1.compute.amazonaws.com/dapdo905rgeksu";
+	static final String USER = "ovgbnnnyciadyj";
+	static final String PASS = "b3207d39318ad1ec84025f9b4011c1c86d9f70b94ed3cf78292abf2c273ef136";
 
 	public static Connection conni() throws SQLException, ClassNotFoundException {
 

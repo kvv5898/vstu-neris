@@ -19,8 +19,8 @@ import src.neris.log.logUser;
 import src.neris.tabl.User_account;
 import src.other.StoreSession;
 import src.other.WebUtils;
-import src.sql.Finduser;
-import src.sql.Log_Auth;
+import src.sql.User;
+import src.sql.Log;
 
 
 @WebServlet("/login")
@@ -82,7 +82,7 @@ public class Login extends HttpServlet {
 
 		User_account userAccount = null;
 		try {
-			userAccount = Finduser.finduser(conn, user_name, password);
+			userAccount = User.finduser(conn, user_name, password);
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -91,7 +91,7 @@ public class Login extends HttpServlet {
 		if (userAccount == null) {
 			errorMessage = "Invalid user_name or Password";
 			try {
-				Log_Auth.Log(conn, ip, host, getway, user_name, password, session.getId(), "fault");
+				Log.Auth(conn, ip, host, getway, user_name, password, session.getId(), "fault");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -121,7 +121,7 @@ public class Login extends HttpServlet {
 				logUser.storelogUser(session, userAccount);
 				logUser.storeConnection(session, conn);
 				try {
-					Log_Auth.Log(conn, ip, host, getway, user_name, password, session.getId(), "ok");
+					Log.Auth(conn, ip, host, getway, user_name, password, session.getId(), "ok");
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

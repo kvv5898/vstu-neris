@@ -9,7 +9,7 @@ import src.neris.tabl.User_account;
 
 
 
-public class Finduser {
+public class User {
 
 	public static User_account finduser(Connection conn, //
 			String user_name, String password) throws SQLException {
