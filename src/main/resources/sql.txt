@@ -1,9 +1,9 @@
-create table new
+create table received
 (
 equipment_id SERIAL PRIMARY KEY,
 sn TEXT NOT null,
-group_id VARCHAR(4) not null,
-organization_id VARCHAR(4) not null,
+group_id integer not null,
+organization_id integer not null
 );
 
 create table group

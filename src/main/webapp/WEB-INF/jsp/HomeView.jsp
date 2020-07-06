@@ -29,7 +29,7 @@ to {
   <ul>               
     
     <li><a href="${pageContext.request.contextPath}/auth">Информация о подключениях</a></li>
-    <li><a href="${pageContext.request.contextPath}/insertequipment">insertequipment</a></li>
+    <li><a href="${pageContext.request.contextPath}/equipmentoperation">insertequipment</a></li>
     <li><a href="${pageContext.request.contextPath}/exit">Выход</a></li>
     
          

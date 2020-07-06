@@ -6,26 +6,26 @@
 <html>
    <head>
       <meta charset="UTF-8">
-      <title>Add Groups</title>
+      <title>Add Guarantee</title>
    </head>
    <body>
-      <h3>Добавление новой группы</h3>
+      <h3>Добавление новой гарантии</h3>
       <p style="color: red;">${errorString}</p>
        
-      <form method="POST" action="${pageContext.request.contextPath}/addgroups">
+      <form method="POST" action="${pageContext.request.contextPath}/addguarantee">
          <table>
             <tr>
-               <td>Описание</td>
-               <td><input type="text" name="description" value="${Groups.description}" /></td>
-               <td>Модель</td>
-               <td><input type="text" name="model" value="${Groups.model}" /></td>
+               <td>Дата</td>
+               <td><input type="date" name="date" value="${Guarantee.date}" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"/></td>
+               <td>Период</td>
+               <td><input type="text" name="grant_period" value="${Guarantee.grant_period}" /></td>
                <td>Дополнительная информация</td>
-               <td><input type="text" name="group_info" value="${Groups.group_info}" /></td>
+               <td><input type="text" name="guarantee_info" value="${Guarantee.guarantee_info}" /></td>
             </tr>
             <tr>
                <td colspan="2">                   
                    <input type="submit" value="Применить" />
-                   <a href="equipmentoperation">Отмена</a>
+                   <a href="addorg">Отмена</a>
                </td>
             </tr>
          </table>

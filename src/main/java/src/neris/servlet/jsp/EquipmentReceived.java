@@ -46,8 +46,8 @@ public class EquipmentReceived extends HttpServlet {
         request.setAttribute("errorString", errorString);
         request.setAttribute("add", list);
 		
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ERView.jsp");
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/AddreceivedView.jsp");
 
 		dispatcher.forward(request, response);
 

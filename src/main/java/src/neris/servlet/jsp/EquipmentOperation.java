@@ -19,7 +19,7 @@ import src.neris.tabl.Received;
 import src.neris.tabl.Org;
 import src.sql.Equipment;
 
-@WebServlet(urlPatterns = { "/insertequipment" })
+@WebServlet(urlPatterns = { "/equipmentoperation" })
 public class EquipmentOperation extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -50,7 +50,7 @@ public class EquipmentOperation extends HttpServlet {
 		request.setAttribute("gr", gr);
 		request.setAttribute("org", org);
 		
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/InsertEquipment.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/EquipmentOperationView.jsp");
 
 		dispatcher.forward(request, response);
 

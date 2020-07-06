@@ -13,25 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import src.neris.log.logUser;
-import src.neris.tabl.Groups;
+import src.neris.tabl.Guarantee;
+import src.other.date_time;
 import src.sql.Equipment;
 
 
 
-@WebServlet(urlPatterns = { "/addgroups" })
-public class Addgroups extends HttpServlet {
+@WebServlet(urlPatterns = { "/addguarantee" })
+public class Addguarantee extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public Addgroups() {
+	public Addguarantee() {
 		super();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addgroups.jsp");
+		String date = date_time.date();
+		request.setAttribute("date", date);
+		
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addguarantee.jsp");
 
 		dispatcher.forward(request, response);
 
@@ -44,15 +47,15 @@ public class Addgroups extends HttpServlet {
 		HttpSession session = request.getSession();
     	Connection conn = logUser.getStoredConnection(session);
 		
-		String description = (String) request.getParameter("description");
-		String model = (String) request.getParameter("model");
-		String group_info = (String) request.getParameter("group_info");
-		Integer group_id = null;
+		String date = (String) request.getParameter("date");
+		String grant_period = (String) request.getParameter("grant_period");
+		String guarantee_info = (String) request.getParameter("guarantee_info");
+		Integer guarantee_id = null;
 		
-		Groups groups = new Groups(group_id, description, model,group_info);
+		Guarantee guarantee = new Guarantee (guarantee_id, date, grant_period, guarantee_info); 
 		
 		try {
-			Equipment.group_add(conn, groups);
+			Equipment.guarantee_add(conn, guarantee);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

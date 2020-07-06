@@ -13,7 +13,7 @@
  <br>
  <p style="color: red;">${errororg}</p>
  
-<form method="POST" action="${pageContext.request.contextPath}/insertequipment">    
+<form method="POST" action="${pageContext.request.contextPath}/equipmentoperation">    
    <table>
    
           <tr>

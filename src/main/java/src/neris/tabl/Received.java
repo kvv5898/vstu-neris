@@ -6,6 +6,8 @@ public class Received {
 	private String sn;
 	private Integer group_id;
 	private Integer organization_id;
+	private String group_info;
+	private String organization_info;
 	
 
 	public Received (Integer equipment_id, String sn, Integer group_id, Integer organization_id) 
@@ -18,6 +20,14 @@ public class Received {
 
 	public Received () {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Received (Integer equipment_id, String sn, String group_info, String organization_info) 
+	{
+		this.equipment_id = equipment_id;
+		this.sn = sn;
+		this.group_info = group_info;
+		this.organization_info = organization_info;
 	}
 
 	public Integer getequipment_id() {
@@ -51,5 +61,22 @@ public class Received {
 	public void setorganization_id(Integer organization_id) {
 		this.organization_id = organization_id;
 	}
+
+
+public String getgroup_info() {
+	return group_info;
+}
+
+public void setgroup_info(String group_info) {
+	this.group_info = group_info;
+}
+
+public String getorganization_info() {
+	return organization_info;
+}
+
+public void setorganization_info(String organization_info) {
+	this.organization_info = organization_info;
+}
 
 }
