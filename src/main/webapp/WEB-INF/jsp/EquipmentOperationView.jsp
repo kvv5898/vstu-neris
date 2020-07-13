@@ -11,7 +11,7 @@
  <body>
  <p style="color: red;">${errorgr}</p>
  <br>
- <p style="color: red;">${errororg}</p>
+ <p style="color: red;">${errorguar}</p>
  
 <form method="POST" action="${pageContext.request.contextPath}/equipmentoperation">    
    <table>
@@ -38,17 +38,17 @@
           
           <tr>
           <td>
-          <p><select name="ORG" required>
-          <option disabled selected>Выберите организацию</option>
-          <c:forEach items="${org}" var="org">
-		  <option value="${org.organization_id}"> ${org.description} / ${org.tel} / ${org.guarantee_id()}/ / ${org.organization_info}/</option>
+          <p><select name="GUAR" required>
+          <option disabled selected>Выберите гарантийные обязательства</option>
+          <c:forEach items="${guar}" var="guar"> description, month,contract
+		  <option value="${guar.guarantee_id}"> ${guar.org_info} / ${guar.month} / ${guar.contract}</option>
 		  </c:forEach>
           </select>
           </td>
           
           <td>
           <form>
-          <input type="button" value="Добавить Организацию" onClick='location.href="${pageContext.request.contextPath}/addorg"'>
+          <input type="button" value="Добавить гарантийные обязательства" onClick='location.href="${pageContext.request.contextPath}/addguarantee"'>
           </form>
           </td>
           </tr>

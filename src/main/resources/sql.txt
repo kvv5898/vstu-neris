@@ -3,7 +3,7 @@ create table received
 equipment_id SERIAL PRIMARY KEY,
 sn TEXT NOT null,
 group_id integer not null,
-organization_id integer not null
+guarantee_id integer not null
 );
 
 create table group
@@ -21,25 +21,37 @@ organization_id SERIAL PRIMARY KEY,
 description TEXT,
 tel VARCHAR(24) not null,
 address TEXT,
-guarantee_id integer not null,
 organization_info TEXT
 );
-insert into organization (description, tel, address, guarantee_id, organization_info)
-values ('Linkinpark', '+375298787878', 'г. Витебск ул. Горовца д.12 каб.17 ', '1', '№ 367452 Иван');
+insert into organization (description, tel, address, organization_info)
+values ('Linkinpark', '+375298787878', 'г. Витебск ул. Горовца д.12 каб.17 ',  '№ 367452 Иван');
 
 insert into organization (description, tel, address, guarantee_id, organization_info)
-values ('special_master', '+375291112222', 'г. Гомель ул. Кирова д.72 каб.25 ', '2', '№ 35641 Таня');
+values ('special_master', '+375291112222', 'г. Гомель ул. Кирова д.72 каб.25 ',  '№ 35641 Таня');
 
 
 create table guarantee
 (
 guarantee_id SERIAL PRIMARY KEY,
+organization_id integer not null,
+validity_id integer not null
+)
+
+insert into guarantee (organization_id, validity_id)
+values ('1', '1');
+
+create table validity
+(
+validity_id SERIAL PRIMARY KEY,
 date TEXT NOT null,
-grant_period VARCHAR(4) not null,
-guarantee_info TEXT
+month VARCHAR(4) not null,
+org_info text not NULL,
+contract TEXT NOT null,
+validity_info TEXT
 );
-insert into guarantee (date, grant_period, guarantee_info)
-values ('2020-06-25', '36', 'Linkinpark');
+
+insert into validity (date, month, org_info, contract, validity_info)
+values ('2020-06-25', '36', 'Linkinpark', '5654AAZ', 'постгарантия по доп. условию');
 
 create table history
 (

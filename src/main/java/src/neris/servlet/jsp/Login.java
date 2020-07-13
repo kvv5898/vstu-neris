@@ -47,7 +47,7 @@ public class Login extends HttpServlet {
 			throws ServletException, IOException {
 		System.out.println("Start conn: ");
 		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(60 * 3);
+		session.setMaxInactiveInterval(60 * 10);
 
 		Connection conn = null;
 

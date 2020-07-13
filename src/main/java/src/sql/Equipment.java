@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import src.neris.tabl.Groups;
 import src.neris.tabl.Guarantee;
-import src.neris.tabl.Received;
 import src.neris.tabl.Org;
+import src.neris.tabl.Received;
+import src.neris.tabl.Validity;
+
 
 
 
@@ -40,7 +41,7 @@ public class Equipment {
 		return list;
 	}
 	
-	public static List<Org> findgorg(Connection conn) throws SQLException {
+	public static List<Org> findorg(Connection conn) throws SQLException {
 		String sql = "Select * from organization";
 		System.out.println("Search info organization in DB");
 		PreparedStatement pstm = conn.prepareStatement(sql);
@@ -49,28 +50,90 @@ public class Equipment {
 		while (rs.next()) {
 
 			Integer organization_id = rs.getInt("organization_id");
-			String description = rs.getString("description");
+			String org_info = rs.getString("org_info");
 			String tel = rs.getString("tel");
 			String address = rs.getString("address");
-			Integer guarantee_id = rs.getInt("guarantee_id");
 			String organization_info = rs.getString("organization_info");
 
-			Org us = new Org(organization_id, description, tel, address,guarantee_id,organization_info);
+			Org us = new Org(organization_id, org_info, tel, address, organization_info);
 
 			us.setorganization_id(organization_id);
-			us.setdescription(description);
+			us.setorg_info(org_info);
 			us.settel(tel);
 			us.setaddress(address);
-			us.setguarantee_id(guarantee_id);
 			us.setorganization_info(organization_info);
 			list.add(us);
 		}
 		return list;
 	}
 	
-	public static List<Guarantee> findguarantee(Connection conn) throws SQLException {
-		String sql = "Select * from guarantee";
-		System.out.println("Search info guarantee in DB");
+	public static List<Validity> findvalidity(Connection conn) throws SQLException {
+		String sql = "Select * from validity";
+		System.out.println("Search info validity in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<Validity> list = new ArrayList<Validity>();
+		while (rs.next()) {
+			
+			Integer validity_id = rs.getInt("validity_id");
+			String date = rs.getString("date");
+			Integer month = rs.getInt("month");
+			String org_info = rs.getString("org_info");
+			String contract = rs.getString("contract");
+			String validity_info = rs.getString("validity_info");
+			
+
+			Validity us = new Validity(validity_id, date, month, org_info, contract, validity_info);
+
+			us.setvalidity_id(validity_id);
+			us.setdate(date);
+			us.setmonth(month);
+			us.setorg_info(org_info);
+			us.setcontract(contract);
+			us.setvalidity_info(validity_info);
+			list.add(us);
+		}
+		return list;
+	}
+	
+	
+	public static List<Validity> findvalidityfororg(Connection conn, String org_info) throws SQLException {
+		String sql = "SELECT * from validity WHERE org_info=? ORDER by date";
+		System.out.println("Search info findvalidityfororg in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, org_info);
+		ResultSet rs = pstm.executeQuery();
+		List<Validity> list = new ArrayList<Validity>();
+		while (rs.next()) {
+			
+			Integer validity_id = rs.getInt("validity_id");
+			System.out.println("validity_id - " + validity_id);
+			String date = rs.getString("date");
+			Integer month = rs.getInt("month");
+			String org_info2 = rs.getString("org_info");
+			String contract = rs.getString("contract");
+			String validity_info = rs.getString("validity_info");
+
+			Validity us = new Validity(validity_id, date, month, org_info2, contract, validity_info);
+
+			us.setvalidity_id(validity_id);
+			us.setdate(date);
+			us.setmonth(month);
+			us.setorg_info(org_info2);
+			us.setcontract(contract);
+			us.setvalidity_info(validity_info);
+			list.add(us);
+		}
+		return list;
+	}
+	
+	public static List<Guarantee> findguar(Connection conn) throws SQLException {
+		String sql = "SELECT  g.guarantee_id, v.date, o.org_info, v.month, v.contract "
+				+ "FROM guarantee g " 
+				+ "INNER JOIN validity v ON v.validity_id=g.validity_id "
+				+ "INNER JOIN organization o ON o.organization_id=g.organization_id "
+				+ "ORDER BY v.date";
+		System.out.println("Search info Guarantee in DB");
 		PreparedStatement pstm = conn.prepareStatement(sql);
 		ResultSet rs = pstm.executeQuery();
 		List<Guarantee> list = new ArrayList<Guarantee>();
@@ -78,29 +141,31 @@ public class Equipment {
 			
 			Integer guarantee_id = rs.getInt("guarantee_id");
 			String date = rs.getString("date");
-			String grant_period = rs.getString("grant_period");
-			String guarantee_info = rs.getString("guarantee_info");
-			
+			String org_info = rs.getString("org_info");
+			Integer month = rs.getInt("month");
+			String contract = rs.getString("contract");
 
-			Guarantee us = new Guarantee(guarantee_id, date, grant_period, guarantee_info);
+			Guarantee us = new Guarantee(guarantee_id, date, org_info, month,contract);
 
 			us.setguarantee_id(guarantee_id);
 			us.setdate(date);
-			us.setgrant_period(grant_period);
-			us.setguarantee_info(guarantee_info);
+			us.setorg_info(org_info);
+			us.setmonth(month);
+			us.setcontract(contract);
 			list.add(us);
 		}
 		return list;
 	}
 	
-	public static void guarantee_add(Connection conn, Guarantee guarantee) throws SQLException {
-        String sql = "Insert into guarantee (date, grant_period, guarantee_info) values (?,?,?)";
+	public static void validity_add(Connection conn, Validity validity) throws SQLException {
+        String sql = "Insert into validity (date, month, contract,  validity_info) values (?,?,?,?)";
  
         PreparedStatement add = conn.prepareStatement(sql);
         
-        add.setString(1, guarantee.getdate());
-        add.setString(2, guarantee.getgrant_period());
-        add.setString(3, guarantee.getguarantee_info());
+        add.setString(1, validity.getdate());
+        add.setInt(2, validity.getmonth());
+        add.setString(3, validity.getcontract());
+        add.setString(4, validity.getvalidity_info());
  
         add.executeUpdate();
 	
@@ -126,7 +191,9 @@ public class Equipment {
 	}
 		
 		public static List<Received> find_er(Connection conn) throws SQLException {
-			String sql = "SELECT r.equipment_id, r.sn, g.group_info AS group_info, o.organization_info AS organization_info FROM received r INNER JOIN groups g ON r.group_id = g.group_id INNER JOIN organization o ON r.organization_id = o.organization_id";
+			String sql = "SELECT r.equipment_id, r.sn, g.group_info AS group_info, o.organization_info AS organization_info "
+					+ "FROM received r INNER JOIN groups g ON r.group_id = g.group_id "
+					+ "INNER JOIN organization o ON r.organization_id = o.organization_id";
 			System.out.println("Search info Received in DB");
 			PreparedStatement pstm = conn.prepareStatement(sql);
 			ResultSet rs = pstm.executeQuery();
@@ -166,16 +233,15 @@ public class Equipment {
 	}
 		
 		public static void org_add(Connection conn, Org org) throws SQLException {
-	        String sql = "Insert into organization (description, tel, address, guarantee_id, organization_info) values (?,?,?,?,?)";
+	        String sql = "Insert into organization (org_info, tel, address, organization_info) values (?,?,?,?)";
 	 
 	        PreparedStatement add = conn.prepareStatement(sql);
 	 
 	        
-	        add.setString(1, org.getdescription());
+	        add.setString(1, org.getorg_info());
 	        add.setString(2, org.gettel());
 	        add.setString(3, org.getaddress());
-	        add.setInt(4, org.guarantee_id());
-	        add.setString(5, org.getorganization_info());
+	        add.setString(4, org.getorganization_info());
 	 
 	        add.executeUpdate();
 		

@@ -3,20 +3,18 @@ package src.neris.tabl;
 public class Org {
 
 	private Integer organization_id;
-	private String description;
+	private String org_info;
 	private String tel;
 	private String address;
-	private Integer guarantee_id;
 	private String organization_info;
 	
 
-	public Org (Integer organization_id, String description, String tel, String address, Integer guarantee_id, String organization_info) 
+	public Org (Integer organization_id, String org_info, String tel, String address, String organization_info) 
 	{
 		this.organization_id = organization_id;
-		this.description = description;
+		this.org_info = org_info;
 		this.tel = tel;
 		this.address = address;
-		this.guarantee_id = guarantee_id;
 		this.organization_info = organization_info;
 	}
 
@@ -32,12 +30,12 @@ public class Org {
 		this.organization_id = organization_id;
 	}
 
-	public String getdescription() {
-		return description;
+	public String getorg_info() {
+		return org_info;
 	}
 
-	public void setdescription(String description) {
-		this.description = description;
+	public void setorg_info(String org_info) {
+		this.org_info = org_info;
 	}
 
 	public String gettel() {
@@ -54,14 +52,6 @@ public class Org {
 
 	public void setaddress(String address) {
 		this.address = address;
-	}
-	
-	public Integer guarantee_id() {
-		return guarantee_id;
-	}
-
-	public void setguarantee_id(Integer guarantee_id) {
-		this.guarantee_id = guarantee_id;
 	}
 	
 	public String getorganization_info() {

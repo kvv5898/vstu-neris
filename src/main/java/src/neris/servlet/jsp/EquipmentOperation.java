@@ -15,8 +15,8 @@ import javax.servlet.http.HttpSession;
 
 import src.neris.log.logUser;
 import src.neris.tabl.Groups;
+import src.neris.tabl.Guarantee;
 import src.neris.tabl.Received;
-import src.neris.tabl.Org;
 import src.sql.Equipment;
 
 @WebServlet(urlPatterns = { "/equipmentoperation" })
@@ -34,21 +34,21 @@ public class EquipmentOperation extends HttpServlet {
 		HttpSession session = request.getSession();
     	Connection conn = logUser.getStoredConnection(session);
     	
-    	String errorgr = null, errororg = null;
+    	String errorgr = null, errorguar = null;
         List<Groups> gr = null;
-        List<Org> org = null;
+        List<Guarantee> guar = null;
         try {
-        	org = Equipment.findgorg(conn);
-			gr = Equipment.findgroups(conn);
+        	gr = Equipment.findgroups(conn);
+        	guar = Equipment.findguar(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
         request.setAttribute("errorgr", errorgr);
-        request.setAttribute("erroorg", errororg);
+        request.setAttribute("erroguar", errorguar);
 		request.setAttribute("gr", gr);
-		request.setAttribute("org", org);
+		request.setAttribute("guar", guar);
 		
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/EquipmentOperationView.jsp");
 

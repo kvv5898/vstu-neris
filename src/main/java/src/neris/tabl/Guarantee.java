@@ -3,21 +3,28 @@ package src.neris.tabl;
 public class Guarantee {
 
 	private Integer guarantee_id;
+	private Integer organization_id;
+	private Integer validity_id;
 	private String date;
-	private String grant_period;
-	private String guarantee_info;
+	private String org_info;
+	private Integer month;
+	private String contract;
 	
 
-	public Guarantee (Integer guarantee_id, String date, String grant_period, String guarantee_info) 
+	public Guarantee (Integer guarantee_id, Integer organization_id, Integer validity_id) 
 	{
 		this.guarantee_id = guarantee_id;
-		this.date = date;
-		this.grant_period = grant_period;
-		this.guarantee_info = guarantee_info;
+		this.organization_id = organization_id;
+		this.validity_id = validity_id;
 	}
 
-	public Guarantee() {
-		// TODO Auto-generated constructor stub
+	public Guarantee(Integer guarantee_id, String date, String org_info, Integer month, String contract) {
+		this.guarantee_id = guarantee_id;
+		this.date = date;
+		this.org_info = org_info;
+		this.month = month;
+		this.contract = contract;
+		
 	}
 
 	public Integer getguarantee_id() {
@@ -28,6 +35,23 @@ public class Guarantee {
 		this.guarantee_id = guarantee_id;
 	}
 
+	public Integer getorganization_id() {
+		return organization_id;
+	}
+
+	public void setorganization_id(Integer organization_id) {
+		this.organization_id = organization_id;
+	}
+
+
+	public Integer getvalidity_id() {
+		return validity_id;
+	}
+
+	public void setvalidity_id(Integer validity_id) {
+		this.validity_id = validity_id;
+	}
+	
 	public String getdate() {
 		return date;
 	}
@@ -35,21 +59,28 @@ public class Guarantee {
 	public void setdate(String date) {
 		this.date = date;
 	}
-
-	public String getgrant_period() {
-		return grant_period;
+	
+	public String getorg_info() {
+		return org_info;
 	}
 
-	public void setgrant_period(String grant_period) {
-		this.grant_period = grant_period;
+	public void setorg_info(String org_info) {
+		this.org_info = org_info;
+	}
+	
+	public Integer getmonth() {
+		return month;
 	}
 
-	public String getguarantee_info() {
-		return guarantee_info;
+	public void setmonth(Integer month) {
+		this.month = month;
 	}
 
-	public void setguarantee_info(String guarantee_info) {
-		this.guarantee_info = guarantee_info;
+	public String getcontract() {
+		return contract;
 	}
 
+	public void setcontract(String contract) {
+		this.contract = contract;
+	}
 }

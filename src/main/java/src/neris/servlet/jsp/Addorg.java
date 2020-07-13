@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import src.neris.log.logUser;
-import src.neris.tabl.Guarantee;
+import src.neris.tabl.Validity;
 import src.neris.tabl.Org;
 import src.sql.Equipment;
 
@@ -34,10 +34,10 @@ public class Addorg extends HttpServlet {
 		HttpSession session = request.getSession();
     	Connection conn = logUser.getStoredConnection(session);
 		
-		List<Guarantee> guarantee = null;
+		List<Validity> guarantee = null;
 		String errorString = null;
 		try {
-			guarantee=Equipment.findguarantee(conn);
+			guarantee=Equipment.findvalidity(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,12 +61,10 @@ public class Addorg extends HttpServlet {
 		String tel = (String) request.getParameter("tel");
 		String address = (String) request.getParameter("address");
 		System.out.println("guarantee_id" + request.getParameter("guarantee_id"));
-		String guarantee_idstr = (String) request.getParameter("guarantee_id");
-		int guarantee_id = Integer.parseInt(guarantee_idstr);
 		String organization_info = (String) request.getParameter("organization_info");
 		Integer organization_id = null;
 		
-		Org org = new Org (organization_id, description, tel, address, guarantee_id, organization_info);
+		Org org = new Org (organization_id, description, tel, address, organization_info);
 		HttpSession session = request.getSession();
     	Connection conn = logUser.getStoredConnection(session);
 		
