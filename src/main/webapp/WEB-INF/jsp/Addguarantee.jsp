@@ -96,7 +96,7 @@
             </div>
                        
     <strong>Ответ javax </strong>: 
-                       
+                    <sapn id="rez">  </sapn>
                        <br>
                     <table id="table">
   <thead>
