@@ -1,5 +1,7 @@
 $(document).ready(function() {
+//	alert("start")
 	 $(document).on('click', '.info', function() {
+//		 alert("click")
 		 var $this = $(this);
 	        if ($this.hasClass('refresh-button')) {
 	            return false;
@@ -13,13 +15,18 @@ $(document).ready(function() {
             
         	dataType: 'html',
         	data: data,
-            url : 'SelectValidity',     // URL - сервлет
-//            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
-            success : function(response) {
-                                     // обработка ответа от сервера
-            	alert(response)
-                $('#ajaxOrgforResponse').text(response);
-            }
-        });
-    });
+            url : 'SelectValidity',
+//            jsonpCallback: 'drawTable',
+            	success : function (response) {
+            	alert(response);
+            	 
+            	  
+            	
+            	  $('#table tbody').append(html);
+            	}
+      
 });
+	
+});
+});
+	 

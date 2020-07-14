@@ -93,13 +93,25 @@
     <div class="header">
         <jsp:include page="_header.jsp"></jsp:include>
         <br>
-        <strong>Ответ сервлета </strong>: 
-                       <span id="ajaxOrgforResponse"></span>
-                       <br>
-                      <div class="sss">
-                      </div>
+            </div>
                        
-    </div>
+    <strong>Ответ javax </strong>: 
+                       
+                       <br>
+                    <table id="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+                <th>Дата</th>
+                <th>Гарантийный срок</th>
+                <th>Наименование организации</th>
+                <th>Контракт</th>
+                <th>Дополнительная информация</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>                <br/>
+    
     <div class="error">
     <p style="color: red;">${errororg}</p>
     <p style="color: red;">${errorvalidity}</p>
