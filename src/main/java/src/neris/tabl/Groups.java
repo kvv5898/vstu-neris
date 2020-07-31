@@ -6,10 +6,8 @@ public class Groups {
 	private String description;
 	private String model;
 	private String group_info;
-	
 
-	public Groups (Integer group_id, String description, String model, String group_info) 
-	{
+	public Groups(Integer group_id, String description, String model, String group_info) {
 		this.group_id = group_id;
 		this.description = description;
 		this.model = model;

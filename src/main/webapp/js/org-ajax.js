@@ -18,11 +18,15 @@ $(document).ready(function() {
             url : 'SelectValidity',
 //            jsonpCallback: 'drawTable',
             	success : function (response) {
-//            	alert(response);
-            	 
-            	  
+//           	alert(response);
+           	
+           	var serializedUser = JSON.stringify(response);
+            		
+            		var tomUser = JSON.parse(serializedUser);
+            		
+            alert(tomUser.date);
             	
-            	  $('#rez').append(response);
+            	  $('#rez').append(tomUser);
             	}
       
 });

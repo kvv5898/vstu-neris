@@ -3,16 +3,16 @@ package src.neris.tabl;
 public class Org {
 
 	private Integer organization_id;
-	private String org_info;
+	private String org_name;
 	private String tel;
 	private String address;
 	private String organization_info;
 	
 
-	public Org (Integer organization_id, String org_info, String tel, String address, String organization_info) 
+	public Org (Integer organization_id, String org_name, String tel, String address, String organization_info) 
 	{
 		this.organization_id = organization_id;
-		this.org_info = org_info;
+		this.org_name = org_name;
 		this.tel = tel;
 		this.address = address;
 		this.organization_info = organization_info;
@@ -30,12 +30,12 @@ public class Org {
 		this.organization_id = organization_id;
 	}
 
-	public String getorg_info() {
-		return org_info;
+	public String getorg_name() {
+		return org_name;
 	}
 
-	public void setorg_info(String org_info) {
-		this.org_info = org_info;
+	public void setorg_name(String org_name) {
+		this.org_name = org_name;
 	}
 
 	public String gettel() {

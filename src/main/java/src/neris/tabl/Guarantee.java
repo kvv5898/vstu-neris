@@ -6,7 +6,7 @@ public class Guarantee {
 	private Integer organization_id;
 	private Integer validity_id;
 	private String date;
-	private String org_info;
+	private String org_name;
 	private Integer month;
 	private String contract;
 	
@@ -18,10 +18,10 @@ public class Guarantee {
 		this.validity_id = validity_id;
 	}
 
-	public Guarantee(Integer guarantee_id, String date, String org_info, Integer month, String contract) {
+	public Guarantee(Integer guarantee_id, String date, String org_name, Integer month, String contract) {
 		this.guarantee_id = guarantee_id;
 		this.date = date;
-		this.org_info = org_info;
+		this.org_name = org_name;
 		this.month = month;
 		this.contract = contract;
 		
@@ -60,12 +60,12 @@ public class Guarantee {
 		this.date = date;
 	}
 	
-	public String getorg_info() {
-		return org_info;
+	public String getorg_name() {
+		return org_name;
 	}
 
-	public void setorg_info(String org_info) {
-		this.org_info = org_info;
+	public void setorg_name(String org_name) {
+		this.org_name = org_name;
 	}
 	
 	public Integer getmonth() {

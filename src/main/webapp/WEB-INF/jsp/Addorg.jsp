@@ -16,8 +16,8 @@
       <form method="POST" action="${pageContext.request.contextPath}/addorg">
          <table>
             
-            <tr><td>description</td>
-            <td><input type="text" name="description" value="${Org.description}" /></td>
+            <tr><td>org_name</td>
+            <td><input type="text" name="org_name" value="${Org.org_name}" /></td>
             </tr>
             
             <tr><td>tel</td>

@@ -31,7 +31,7 @@ public class InsertEquipment extends HttpServlet
     	String errorString = null;
         List<Groups> list = null;
         try {
-			list = Equipment.findgroups(conn);
+			list = Equipment.find_groups(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

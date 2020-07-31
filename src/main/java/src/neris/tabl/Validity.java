@@ -5,17 +5,17 @@ public class Validity {
 	private Integer validity_id;
 	private String date;
 	private Integer month;
-	private String org_info;
+	private String org_name;
 	private String contract;
 	private String validity_info;
 	
 
-	public Validity (Integer validity_id, String date, Integer month, String org_info, String contract,  String validity_info) 
+	public Validity (Integer validity_id, String date, Integer month, String org_name, String contract,  String validity_info) 
 	{
 		this.validity_id = validity_id;
 		this.date = date;
 		this.month = month;
-		this.org_info = org_info;
+		this.org_name = org_name;
 		this.contract = contract;
 		this.validity_info = validity_info;
 	}
@@ -45,12 +45,12 @@ public class Validity {
 		this.month = month;
 	}
 	
-	public String getorg_info() {
-		return org_info;
+	public String getorg_name() {
+		return org_name;
 	}
 
-	public void setorg_info(String org_info) {
-		this.org_info = org_info;
+	public void setorg_name(String org_name) {
+		this.org_name = org_name;
 	}
 	
 	public String getcontract() {

@@ -12,19 +12,21 @@
 <p style="color: red;">${errorString}</p>
 	<p>Поступившее оборудование</p>
 	<table border="1">
-	<th>equipment_id</th>
-	<th>sn</th>
-	<th>group_info</th>
-	<th>organization_info</th>
+	<th>ID оборудования</th>
+	<th>Серийный номер</th>
+	<th>Группа</th>
+	<th>Организация</th>
+	<th>Гарантийный кантракт</th>
 		<c:forEach var="add" items="${add}">
 			<tr>
 				<td>${add.equipment_id}</td>
 				<td>${add.sn}</td>
 				<td>${add.group_info}</td>
-				<td>${add.organization_info}</td>
+				<td>${add.org_name}</td>
+				<td>${add.contract}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<input type="button" value="Назад" onClick='location.href="${pageContext.request.contextPath}/equipmentoperation"'>
+	<input type="button" value="Домой" onClick='location.href="${pageContext.request.contextPath}/home"'>
 </body>
 </html>

@@ -4,7 +4,9 @@
 
 <!DOCTYPE html>
 <html>
-
+<style>
+   <%@include file='styles/div.css' %>
+</style>
 <head>
     <meta charset="UTF-8">
     <title>Add Guarantee</title>
@@ -13,80 +15,7 @@
                 type="text/javascript"></script>
         <script src="js/org-ajax.js" type="text/javascript"></script>
     
-    <style>
-        .header {
-            left: 0;
-            top: 0;
-            width: 100%;
-        }
-        
-        .error {
-            
-            height: 20px;
-            width: 100%;
-           }
-        
-        .org {
-            overflow: scroll;
-            float: left;
-            height: 200px;
-            border: 1px solid purple;
-            max-width: 49%;
-        }
-
-        .validity {
-            overflow: scroll;
-            float: right;
-            height: 200px;
-            border: 1px solid purple;
-            max-width: 49%;
-        }
-        
-        .addorg {
-           
-            float: left;
-            max-width: 49%;
-        }
-        
-        .addvalidity {
-           
-            float: right;
-            max-width: 49%;
-        }
-
-        .footer {
-            position: fixed;
-            /* Фиксированное положение */
-            right: 0;
-            bottom: 0;
-            /* Левый нижний угол */
-            width: 100%;
-        }
-
- table {
- width: 100%;
- display:content;
- table-layout:fixed;
- }
- 
-  thead th {
-            position: -webkit-sticky;
-            /* for Safari */
-            position: sticky;
-            top: 0;
-            background: gray;
-
-        }
-        
-        .filterInput{
-    margin: 0;
-    padding: 0;
-    width: 98%;
-    border: 1px;
-    border-style: solid;    
-}
-        
-    </style>
+   
 </head>
 
 <body>
@@ -95,23 +24,6 @@
         <br>
             </div>
                        
-    <strong>Ответ javax </strong>: 
-                    <sapn id="rez">  </sapn>
-                       <br>
-                    <table id="table">
-  <thead>
-    <tr>
-      <th>ID</th>
-                <th>Дата</th>
-                <th>Гарантийный срок</th>
-                <th>Наименование организации</th>
-                <th>Контракт</th>
-                <th>Дополнительная информация</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>                <br/>
-    
     <div class="error">
     <p style="color: red;">${errororg}</p>
     <p style="color: red;">${errorvalidity}</p>

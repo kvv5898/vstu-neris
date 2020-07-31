@@ -21,7 +21,7 @@ import src.sql.Equipment;
 
 
 
-@WebServlet(urlPatterns = { "/addguarantee" })
+@WebServlet(urlPatterns = { "/Addguarantee" })
 public class Addguarantee extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -41,8 +41,8 @@ public class Addguarantee extends HttpServlet {
         List<Org> org = null;
         List<Validity> validity = null;
         try {
-        	org = Equipment.findorg(conn);
-        	validity=Equipment.findvalidity(conn);
+        	org = Equipment.find_org(conn);
+        	validity=Equipment.find_validity(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,13 +74,6 @@ public class Addguarantee extends HttpServlet {
 		System.out.println("VALIDITY " + VALIDITY);
 		String month = (String) request.getParameter("month");
 		System.out.println("month - " + month);
-		
-		
-		HttpSession session = request.getSession();
-    	Connection conn = logUser.getStoredConnection(session);
-		
-		
-		
 		
 		doGet(request, response);
 	}

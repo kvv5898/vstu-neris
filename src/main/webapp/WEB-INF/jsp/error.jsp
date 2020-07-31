@@ -4,14 +4,28 @@
 <!DOCTYPE html>
 <html>
 <style>
-   <%@include file='styles/div.css' %>
+
+.header {
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+
+.footer {
+            position: fixed;
+            /* Фиксированное положение */
+            right: 0;
+            bottom: 0;
+            /* Левый нижний угол */
+            width: 100%;
+        }
+        
    .center {
 	position: absolute;
-	width: 100%;
-	top: 50%;
 	text-align: center;
 	animation: blink 2s infinite;
 	text-align: center;
+	color: red;
 }
 
 @keyframes blink {from { opacity:0;
@@ -24,28 +38,15 @@ to {
 }
 </style>
   <head>
-  <title>Home page</title>
+  <title>Error</title>
   </head>
   <body>
  <div class="header">
         <jsp:include page="_header.jsp"></jsp:include>
         <br>
-            </div>
-  <ul>               
-    
-    <li><a href="${pageContext.request.contextPath}/auth">Информация о подключениях</a></li>
-    <li><a href="${pageContext.request.contextPath}/Step1">Добавить оборудование</a></li>
-    <li><a href="${pageContext.request.contextPath}/exit">Выход</a></li>
-    
-         
-</ul>
-  
-   
-  
-  
-  <body>
+        </div>
 	<div class="center">
-		<P>Welcome to the site "Network Equipment Registration information System"</P>
+		<P>ERROR</P>
 	</div>
 	 <div class="footer">
         <jsp:include page="_footer.jsp"></jsp:include>

@@ -37,7 +37,7 @@ public class Addorg extends HttpServlet {
 		List<Validity> guarantee = null;
 		String errorString = null;
 		try {
-			guarantee=Equipment.findvalidity(conn);
+			guarantee=Equipment.find_validity(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,14 +57,14 @@ public class Addorg extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String description = (String) request.getParameter("description");
+		String org_name = (String) request.getParameter("org_name");
 		String tel = (String) request.getParameter("tel");
 		String address = (String) request.getParameter("address");
 		System.out.println("guarantee_id" + request.getParameter("guarantee_id"));
 		String organization_info = (String) request.getParameter("organization_info");
 		Integer organization_id = null;
 		
-		Org org = new Org (organization_id, description, tel, address, organization_info);
+		Org org = new Org (organization_id, org_name, tel, address, organization_info);
 		HttpSession session = request.getSession();
     	Connection conn = logUser.getStoredConnection(session);
 		

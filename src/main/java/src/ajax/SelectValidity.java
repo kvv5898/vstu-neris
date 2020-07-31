@@ -36,7 +36,7 @@ public class SelectValidity extends HttpServlet
     	//String error = null;
         List<Validity> validity = null;
         try {
-        	validity = Equipment.findvalidityfororg(conn, org_info);
+        	validity = Equipment.find_validity_for_org(conn, org_info);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -45,9 +45,9 @@ public class SelectValidity extends HttpServlet
 //        System.out.println(validity.get(0).getvalidity_info());
         
         String json = gson.toJson(validity);
-        response.setContentType("text/html; charset=windows-1251"); 
-
-        response.getWriter().print(json);
+//        response.setContentType("text/html; charset=windows-1251"); 
+       
+        response.getWriter().write(json);
 
         response.flushBuffer();
         
