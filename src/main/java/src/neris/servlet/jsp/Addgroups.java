@@ -42,10 +42,12 @@ public class Addgroups extends HttpServlet {
 		Connection conn = logUser.getStoredConnection(session);
 		Integer count = null;
 		String error = null;
+		String Step = "Error";
 
 		if (request.getParameter("submit") != null) {
 
 			String description = (String) request.getParameter("description");
+			System.out.println("description: " + description);
 			String model = (String) request.getParameter("model");
 			String group_info = (String) request.getParameter("group_info");
 			Integer group_id = null;
@@ -85,59 +87,57 @@ public class Addgroups extends HttpServlet {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					Step = "Step2";
 				}
 
 				else {
+					Step = "Addgroups";
 					System.out.println("duplicate count: " + count);
 					error = "find_groups_duplicate";
 				}
 			}
-
-			for (int i = 0; i < Groups.class.getDeclaredFields().length; i++) {
-				String name_column = Groups.class.getDeclaredFields()[i].getName();
-
-				List<String> find = null;
-				try {
-					find = Equipment.find_groups_name_column(conn, name_column);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			if (group_info.length() == 0 || model.length() == 0 || group_info.length() == 0 || error == "find_groups_duplicate") {
+				for (int i = 0; i < Groups.class.getDeclaredFields().length; i++) {
+					String name_column = Groups.class.getDeclaredFields()[i].getName();
+					if (name_column == "description" && description.length() != 0) {
+						request.setAttribute("repeatdesc", description);
+					} else if (name_column == "model" && model.length() != 0) {
+						request.setAttribute("repeatmodel", model);
+					} else if (name_column == "group_info" && group_info.length() != 0) {
+						request.setAttribute("repeatgroup_info", group_info);
+					} else {
+						List<String> find = null;
+						try {
+							find = Equipment.find_groups_name_column(conn, name_column);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Step = "Addgroups";
+						request.setAttribute(name_column, find);
+					}
 				}
-				if (name_column=="description") {
-					find.add(description);
-				}
-				else if (name_column=="model") {
-					find.add(model);
-				}
-				
-				request.setAttribute(name_column, find);
-			
 			}
+		}
 
-			request.setAttribute("sn", request.getParameter("sn"));
-			request.setAttribute("error", error);
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addgroups.jsp");
-			dispatcher.forward(request, response);
+		else {
+			List<Groups> gr = null;
+			try {
+				gr = Equipment.find_groups(conn);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				error = e.getMessage();
+			}
+			Step = "Step2";
+			request.setAttribute("gr", gr);
+			request.setAttribute("color", "green");
 
 		}
 
-		List<Groups> gr = null;
-		String errorString = null;
-
-		try {
-			gr = Equipment.find_groups(conn);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			errorString = e.getMessage();
-		}
-
+		request.setAttribute("error", error);
 		request.setAttribute("sn", request.getParameter("sn"));
-		request.setAttribute("error", errorString);
-		request.setAttribute("gr", gr);
-		request.setAttribute("color", "green");
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step2.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 		dispatcher.forward(request, response);
-
 	}
 }
