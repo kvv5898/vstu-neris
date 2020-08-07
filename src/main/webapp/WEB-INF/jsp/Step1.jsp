@@ -21,8 +21,9 @@
 </div>
  
 <form method="POST" action="${pageContext.request.contextPath}/Step1"> 
-<table><tr><td><input type="text" id="sn" name="sn" placeholder="Укажите SN"></td></tr></table>
-<input type="submit" value="Далее">
+<table><tr><td><input type="text" value="${sn}" id="sn" name="sn" required placeholder="Укажите SN"></td></tr></table>
+<input type="submit" value="Далее" style="background: green;">
+<input type="button" value="Назад" style="background: red;" onClick='location.href="${pageContext.request.contextPath}/home"'>
    </form>
    <form>
    <br>

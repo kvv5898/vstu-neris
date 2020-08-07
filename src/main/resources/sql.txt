@@ -18,15 +18,15 @@ group_info TEXT,
 create table organization
 (
 organization_id SERIAL PRIMARY KEY,
-description TEXT,
+org_name TEXT,
 tel VARCHAR(24) not null,
 address TEXT,
 organization_info TEXT
 );
-insert into organization (description, tel, address, organization_info)
+insert into organization (org_name, tel, address, organization_info)
 values ('Linkinpark', '+375298787878', 'г. Витебск ул. Горовца д.12 каб.17 ',  '№ 367452 Иван');
 
-insert into organization (description, tel, address, guarantee_id, organization_info)
+insert into organization (org_name, tel, address, organization_info)
 values ('special_master', '+375291112222', 'г. Гомель ул. Кирова д.72 каб.25 ',  '№ 35641 Таня');
 
 
@@ -44,13 +44,13 @@ create table validity
 (
 validity_id SERIAL PRIMARY KEY,
 date TEXT NOT null,
-month VARCHAR(4) not null,
-org_info text not NULL,
+month integer not null,
+org_name text not NULL,
 contract TEXT NOT null,
 validity_info TEXT
 );
 
-insert into validity (date, month, org_info, contract, validity_info)
+insert into validity (date, month, org_name, contract, validity_info)
 values ('2020-06-25', '36', 'Linkinpark', '5654AAZ', 'постгарантия по доп. условию');
 
 create table history

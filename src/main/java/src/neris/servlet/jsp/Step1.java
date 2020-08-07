@@ -27,8 +27,11 @@ public class Step1 extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("doGet Step1 ");
-
+		System.out.println("doGet Step1 "+ request.getParameter("back"));
+		if (request.getParameter("back") != null) {
+			request.setAttribute("sn", request.getParameter("sn"));
+		}
+		
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step1.jsp");
 
 		dispatcher.forward(request, response);

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import src.neris.log.logUser;
+import src.neris.tabl.Guarantee;
 import src.neris.tabl.Org;
 import src.neris.tabl.Validity;
 import src.sql.Equipment;
@@ -39,16 +40,36 @@ public class Addguarstep1 extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String Step = "error";
+		String Step = "Error";
 		String error = null;
 		String color = null;
 
 		HttpSession session = request.getSession();
 		Connection conn = logUser.getStoredConnection(session);
 		String org_name = request.getParameter("org");
+		System.out.println("doPost Addguarstep1: " + request.getParameter("back"));
+		if (request.getParameter("back") !=null) {
+			System.out.println("Back on Step3");
+			Step = "Step3";
+			List<Guarantee> guar = null;
+			
+			try {
+				guar = Equipment.find_guar(conn);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				error = e.getMessage();
+			}
+			
+			request.setAttribute("guar", guar);
+			
+		}
+		
+		else {
+			
 		
 		if (org_name.length() != 0) {
-			System.out.println("Addguarstep2: ");
+			System.out.println("doPost Addguarstep1: " + org_name);
 			Step = "Error";
 			List<Org> org = null;
 			try {
@@ -94,7 +115,8 @@ public class Addguarstep1 extends HttpServlet {
 			error = "incorect data";
 			color = "red";
 		}
-
+		}
+		
 		request.setAttribute("sn", request.getParameter("sn"));
 		request.setAttribute("group_id", request.getParameter("group_id"));
 		request.setAttribute("group_info", request.getParameter("group_info"));

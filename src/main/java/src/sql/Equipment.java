@@ -39,11 +39,11 @@ public class Equipment {
 	}
 
 	public static Integer find_groups_duplicate(Connection conn, Groups groups) throws SQLException {
-		
+
 		String sql = "Select count(*) from groups WHERE description =? AND model =? AND group_info =?";
 		System.out.println("Search find_groups_duplicate in DB: " + sql);
 		PreparedStatement pstm = conn.prepareStatement(sql);
-		
+
 		pstm.setString(1, groups.getdescription());
 		pstm.setString(2, groups.getmodel());
 		pstm.setString(3, groups.getgroup_info());
@@ -67,7 +67,7 @@ public class Equipment {
 			String name = rs.getString(name_column);
 			us.add(name);
 		}
-		
+
 		return us;
 	}
 
@@ -155,7 +155,6 @@ public class Equipment {
 		ResultSet rs = pstm.executeQuery();
 		List<Org> list = new ArrayList<Org>();
 
-
 		if (rs.next()) {
 			System.out.println(org_name + " found successfully in the database");
 
@@ -174,18 +173,16 @@ public class Equipment {
 			us.setorganization_info(organization_info);
 			list.add(us);
 		}
-		
 
+		else {
+			System.out.println(org_name + " not found in the database");
+			list = null;
 
-else {
-	System.out.println(org_name + " not found in the database");
-		list = null;
-		
 		}
-		
+
 		return list;
 	}
-	
+
 	public static List<Validity> find_validity(Connection conn) throws SQLException {
 		String sql = "Select * from validity";
 		System.out.println("Search info validity in DB");
@@ -244,6 +241,37 @@ else {
 		return list;
 	}
 
+	public static Integer find_validity_for_contract(Connection conn, String contract) throws SQLException {
+		String sql = "SELECT validity_id from validity WHERE contract=?";
+		System.out.println("Search info find_validity_for_contract in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, contract);
+		ResultSet rs = pstm.executeQuery();
+		Integer validity_id = null;
+		if (rs.next()) {
+
+			validity_id = rs.getInt("validity_id");
+			
+		}
+		return validity_id;
+	}
+	
+	
+	public static String find_validity_for_contract_return_orgname(Connection conn, String contract) throws SQLException {
+		String sql = "SELECT org_name from validity WHERE contract=?";
+		System.out.println("Search info find_validity_for_contract_return_orgname in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, contract);
+		ResultSet rs = pstm.executeQuery();
+		String org_name = null;
+		if (rs.next()) {
+
+			org_name = rs.getString("org_name");
+			
+		}
+		return org_name;
+	}
+	
 	public static List<Guarantee> find_guar(Connection conn) throws SQLException {
 		String sql = "SELECT  g.guarantee_id, v.date, o.org_name, v.month, v.contract " + "FROM guarantee g "
 				+ "INNER JOIN validity v ON v.validity_id=g.validity_id "
@@ -313,19 +341,33 @@ else {
 		;
 		return us;
 	}
-	
-	public static void validity_add(Connection conn, Validity validity) throws SQLException {
-		String sql = "Insert into validity (date, month, contract,  validity_info) values (?,?,?,?)";
+
+	public static Integer validity_add(Connection conn, Validity validity) throws SQLException {
+		String sql = "Insert into validity (date, month, org_name, contract, validity_info) values (?,?,?,?,?)";
 
 		PreparedStatement add = conn.prepareStatement(sql);
 
 		add.setString(1, validity.getdate());
 		add.setInt(2, validity.getmonth());
-		add.setString(3, validity.getcontract());
-		add.setString(4, validity.getvalidity_info());
-
+		add.setString(3, validity.getorg_name());
+		add.setString(4, validity.getcontract());
+		add.setString(5, validity.getvalidity_info());
 		add.executeUpdate();
-
+		
+		sql = "SELECT validity_id from validity WHERE date=? AND month=? AND org_name=? AND contract=? AND validity_info=?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, validity.getdate());
+		pstm.setInt(2, validity.getmonth());
+		pstm.setString(3, validity.getorg_name());
+		pstm.setString(4, validity.getcontract());
+		pstm.setString(5, validity.getvalidity_info());
+		ResultSet rs = pstm.executeQuery();
+		Integer validity_id = null;
+		if (rs.next()) {
+			validity_id = rs.getInt("validity_id");
+		}
+		
+		return validity_id;
 	}
 
 	public static Integer find_received_sn(Connection conn, String sn) throws SQLException {
@@ -399,7 +441,7 @@ else {
 
 	}
 
-	public static void org_add(Connection conn, Org org) throws SQLException {
+	public static Integer org_add(Connection conn, Org org) throws SQLException {
 		String sql = "Insert into organization (org_name, tel, address, organization_info) values (?,?,?,?)";
 
 		PreparedStatement add = conn.prepareStatement(sql);
@@ -411,5 +453,50 @@ else {
 
 		add.executeUpdate();
 
+		sql = "SELECT organization_id from organization WHERE org_name=? AND tel=? AND address=? AND organization_info=? ";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setString(1, org.getorg_name());
+		pstm.setString(2, org.gettel());
+		pstm.setString(3, org.getaddress());
+		pstm.setString(4, org.getorganization_info());
+		ResultSet rs = pstm.executeQuery();
+		Integer organization_id = null;
+		if (rs.next()) {
+			organization_id = rs.getInt("organization_id");
+		}
+		
+		return organization_id;
+		
 	}
+	
+	public static void guarantee_add(Connection conn, Integer organization_id, Integer validity_id) throws SQLException {
+		System.out.println("Insert guarantee in DB for organization_id ("+organization_id+") validity_id("+validity_id+")");
+		String sql = "Insert into guarantee (organization_id, validity_id) values (?,?)";
+
+		PreparedStatement add = conn.prepareStatement(sql);
+
+		add.setInt(1, organization_id);
+		add.setInt(2,validity_id);
+		
+
+		add.executeUpdate();
+	}
+	
+	public static Integer find_guar_orgid_valid(Connection conn, Integer organization_id, Integer validity_id) throws SQLException {
+		String sql = "Select count(*) from guarantee WHERE organization_id=? AND validity_id=?";
+		System.out.println("Search find_guar_orgid_valid in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		pstm.setInt(1, organization_id);
+		pstm.setInt(2, validity_id);
+		Integer count = null;
+		ResultSet rs = pstm.executeQuery();
+		if (rs.next()) {
+			count = rs.getInt("count");
+		}
+		else {
+			System.out.println("find_guar_orgid_valid  not found in the database");
+		}
+		return count;
+	}
+	
 }

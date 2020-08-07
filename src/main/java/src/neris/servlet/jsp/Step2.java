@@ -30,6 +30,9 @@ public class Step2 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		System.out.println("doGet Step2 ");
+		if (request.getParameter("back") != null) {
+			request.setAttribute("sn", request.getParameter("sn"));
+		}
 
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step2.jsp");
 

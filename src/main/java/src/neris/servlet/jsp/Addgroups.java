@@ -40,7 +40,8 @@ public class Addgroups extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Connection conn = logUser.getStoredConnection(session);
-		Integer count = null;
+		String group_add = null;
+		Integer count = 0;
 		String error = null;
 		String Step = "Error";
 
@@ -61,11 +62,14 @@ public class Addgroups extends HttpServlet {
 			else if (model.length() == 0) {
 				error = "model incorrect (not null)";
 				request.setAttribute("modelcolor", "red");
+				request.setAttribute("desccolor", "green");
 			}
 
 			else if (group_info.length() == 0) {
 				error = "group_info incorrect (not null)";
 				request.setAttribute("group_infocolor", "red");
+				request.setAttribute("desccolor", "green");
+				request.setAttribute("modelcolor", "green");
 			}
 
 			else {
@@ -80,30 +84,31 @@ public class Addgroups extends HttpServlet {
 				}
 
 				if (count == 0) {
-
+					group_add = "group_add";
 					try {
 						Equipment.group_add(conn, groups);
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Step = "Step2";
+					
 				}
 
 				else {
 					Step = "Addgroups";
 					System.out.println("duplicate count: " + count);
-					error = "find_groups_duplicate";
+					error = "find_groups_duplicate! description -" + description + "; model -" + model + "; group_info -" + group_info + ". Repeat please!";
+					 
 				}
 			}
-			if (group_info.length() == 0 || model.length() == 0 || group_info.length() == 0 || error == "find_groups_duplicate") {
+			if (group_info.length() == 0 || model.length() == 0 || group_info.length() == 0 || count != 0) {
 				for (int i = 0; i < Groups.class.getDeclaredFields().length; i++) {
 					String name_column = Groups.class.getDeclaredFields()[i].getName();
-					if (name_column == "description" && description.length() != 0) {
+					if (name_column == "description" && description.length() != 0 && count == 0) {
 						request.setAttribute("repeatdesc", description);
-					} else if (name_column == "model" && model.length() != 0) {
+					} else if (name_column == "model" && model.length() != 0 && count == 0) {
 						request.setAttribute("repeatmodel", model);
-					} else if (name_column == "group_info" && group_info.length() != 0) {
+					} else if (name_column == "group_info" && group_info.length() != 0 && count == 0) {
 						request.setAttribute("repeatgroup_info", group_info);
 					} else {
 						List<String> find = null;
@@ -120,7 +125,7 @@ public class Addgroups extends HttpServlet {
 			}
 		}
 
-		else {
+		if (request.getParameter("submit") == null || group_add == "group_add" ) {
 			List<Groups> gr = null;
 			try {
 				gr = Equipment.find_groups(conn);

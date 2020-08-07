@@ -20,6 +20,9 @@ public class Validity {
 		this.validity_info = validity_info;
 	}
 
+	public Validity() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Integer getvalidity_id() {
 		return validity_id;

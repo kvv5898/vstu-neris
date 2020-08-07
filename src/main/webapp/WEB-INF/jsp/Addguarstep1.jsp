@@ -23,27 +23,27 @@
     <p style="color: red;">${error}</p>
 </div>
  
-<form method="POST" action="${pageContext.request.contextPath}/Addguarstep1">
-<p><input type="hidden" readonly="readonly" name="sn" value="${sn}"></p>
-<p><input type="hidden" readonly="readonly" name="group_id" value="${group_id}"/>
-<input type="hidden" readonly="readonly" name="group_info" value="${group_info}"/></p>
-
-
-
-          
-       
-<strong>Выберите или укажите название организации</strong>
-       
-        <p> <input type="text" list="org" name="org" value="" style="border-color: ${color}">
+<form method="POST" id="form1" action="${pageContext.request.contextPath}/Addguarstep1">
+<input type="hidden" name="sn" value="${sn}">
+<input type="hidden" name="group_id" value="${group_id}"/>
+<input type="hidden" name="group_info" value="${group_info}"/>  
+</form> 
+ 
+<form method="POST" id="form2" action="${pageContext.request.contextPath}/Addguarstep1"> 
+<input type="hidden" name="sn" value="${sn}">
+<input type="hidden" name="group_id" value="${group_id}"/>
+<input type="hidden" name="group_info" value="${group_info}"/>       
+<strong>Выберите или укажите название организации</strong>     
+        <p><input type="text" list="org" name="org" required style="border-color: ${color}">
                <datalist id="org">
                 <c:forEach items="${org}" var="org">
 		  <option value="${org.org_name}">${org.organization_id} - ${org.org_name} / ${org.address} / ${org.organization_info}</option>
 		  </c:forEach>	
-               </datalist>
-         </p>
-          
- <input type="submit" value="Далее" name="submit" />
-   </form>
+               </datalist></p>
+    </form>     
+        
+ <input type="submit" value="Далее" name="submit" style="background: green;" form="form2"/>
+ <input type="submit" value="Назад" name="back" style="background: red;" form="form1"/>
    
   
             <div class="footer">
