@@ -5,23 +5,6 @@
 <html>
 <style>
    <%@include file='styles/div.css' %>
-   .center {
-	position: absolute;
-	width: 100%;
-	top: 50%;
-	text-align: center;
-	animation: blink 2s infinite;
-	text-align: center;
-}
-
-@keyframes blink {from { opacity:0;
-	
-}
-
-to {
-	opacity: 2;
-}
-}
 </style>
   <head>
   <title>Home page</title>
@@ -31,21 +14,14 @@ to {
         <jsp:include page="_header.jsp"></jsp:include>
         <br>
             </div>
-  <ul>               
-    
-    <li><a href="${pageContext.request.contextPath}/auth">Информация о подключениях</a></li>
-    <li><a href="${pageContext.request.contextPath}/Step1">Добавить оборудование</a></li>
-    <li><a href="${pageContext.request.contextPath}/exit">Выход</a></li>
-    
-         
-</ul>
-  
-   
-  
-  
+ 
   <body>
-	<div class="center">
-		<P>Welcome to the site "Network Equipment Registration information System"</P>
+	<div class="home">
+		<strong>Система предназначена для учёта оборудования. 
+		Оборудование можно добавить как последовательно по серийному номеру (SN), так и группой. 
+		Серийные номера являются уникальными, принадлежат организации, входят в группу и имеют гарантийные условие. 
+		В ходе эксплуатации могут менять статус (например, эксплуатация - ремонт -эксплуатация - демонтаж - списание). 
+		Для поиска и устранения возможных проблем, ведётся журнал sql запросов к базе данных.</strong>
 	</div>
 	 <div class="footer">
         <jsp:include page="_footer.jsp"></jsp:include>

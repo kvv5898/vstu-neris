@@ -6,11 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+
+
+
 import src.neris.tabl.Groups;
 import src.neris.tabl.Guarantee;
+import src.neris.tabl.History;
+import src.neris.tabl.Logsql;
 import src.neris.tabl.Org;
 import src.neris.tabl.Received;
 import src.neris.tabl.Validity;
+
+import src.other.date_time;
 
 public class Equipment {
 
@@ -41,7 +49,7 @@ public class Equipment {
 	public static Integer find_groups_duplicate(Connection conn, Groups groups) throws SQLException {
 
 		String sql = "Select count(*) from groups WHERE description =? AND model =? AND group_info =?";
-		System.out.println("Search find_groups_duplicate in DB: " + sql);
+		System.out.println("Search find_groups_duplicate in DB: ");
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
 		pstm.setString(1, groups.getdescription());
@@ -53,10 +61,91 @@ public class Equipment {
 		while (rs.next()) {
 			count = rs.getInt("count");
 		}
-		System.out.println("count: " + count);
+		System.out.println("find_groups_duplicate count: " + count);
 		return count;
 	}
 
+	public static Integer find_org_duplicate(Connection conn, Org org) throws SQLException {
+
+		String sql = "Select count(*) from organization WHERE org_name =? AND tel =? AND address =?";
+		System.out.println("Search find_org_duplicate in DB: " );
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, org.getorg_name());
+		pstm.setString(2, org.gettel());
+		pstm.setString(3, org.getaddress());
+
+		Integer count = null;
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			count = rs.getInt("count");
+		}
+		System.out.println("find_org_duplicate count: " + count);
+		return count;
+	}
+	
+	public static Integer find_validity_duplicate(Connection conn, Validity validity) throws SQLException {
+		
+		String sql = "Select count(*) from validity WHERE org_name =? AND contract =?";
+		System.out.println("Search find_validity_duplicate in DB: " );
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, validity.getorg_name());
+		pstm.setString(2, validity.getcontract());
+
+		Integer count = null;
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			count = rs.getInt("count");
+		}
+		System.out.println("find_validity_duplicate: " + count);
+		return count;
+	}
+	
+	public static List<History> find_history(Connection conn) throws SQLException {
+		String sql = "Select * from history";
+		System.out.println("Search info history in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<History> list = new ArrayList<History>();
+		while (rs.next()) {
+			
+			Integer history_id = rs.getInt("history_id");
+			String sn = rs.getString("sn");
+			String date = rs.getString("date");
+			String status = rs.getString("status");
+			String organization = rs.getString("organization");
+
+			History us = new History();
+
+			us.sethistory_id(history_id);
+			us.setsn(sn);
+			us.setdate(date);
+			us.setstatus(status);
+			us.setorganization(organization);
+			list.add(us);
+		}
+		return list;
+	}
+	
+public static Integer find_history_duplicate(Connection conn, History history) throws SQLException {
+	    System.out.println("Search find_history_duplicate in DB: " );
+		String sql = "Select count(*) from history WHERE sn =? AND status =? AND organization =?";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+
+		pstm.setString(1, history.getsn());
+		pstm.setString(2, history.getstatus());
+		pstm.setString(3, history.getorganization());
+
+		Integer count = null;
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			count = rs.getInt("count");
+		}
+		
+		return count;
+	}
+	
 	public static List<String> find_groups_name_column(Connection conn, String name_column) throws SQLException {
 		String sql = "SELECT " + name_column + " FROM groups GROUP BY " + name_column + "";
 		System.out.println("Search info find_groups_name_column in DB by " + name_column);
@@ -71,6 +160,20 @@ public class Equipment {
 		return us;
 	}
 
+	public static List<String> find_org_name_column(Connection conn, String name_column) throws SQLException {
+		String sql = "SELECT " + name_column + " FROM organization GROUP BY " + name_column + "";
+		System.out.println("Search info find_org_name_column in DB by " + name_column);
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<String> us = new ArrayList<String>();
+		while (rs.next()) {
+			String name = rs.getString(name_column);
+			us.add(name);
+		}
+
+		return us;
+	}
+	
 	public static List<Groups> find_id_gr(Connection conn, Integer group_id) throws SQLException {
 		String sql = "Select * from groups WHERE group_id=?";
 		System.out.println("Search info groups in DB by group_id");
@@ -121,6 +224,32 @@ public class Equipment {
 		return list;
 	}
 
+	public static List<Logsql> find_logsql(Connection conn) throws SQLException {
+		String sql = "Select * from logsql";
+		System.out.println("Search info logsql in DB");
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<Logsql> logsql = new ArrayList<Logsql>();
+		while (rs.next()) {
+			
+			Integer log_id = rs.getInt("log_id");
+			String user_name = rs.getString("user_name");
+			String date = rs.getString("date");
+			String sql_code = rs.getString("sql_code");
+
+			Logsql us = new Logsql(log_id, user_name, date, sql_code);
+
+			us.setlog_id(log_id);
+			us.setuser_name(user_name);
+			us.setdate(date);
+			us.setsql_code(sql_code);
+			
+			logsql.add(us);
+		}
+		return logsql;
+	}
+	
+	
 	public static List<Org> find_id_org(Connection conn, Integer organization_id) throws SQLException {
 		String sql = "Select * from organization WHERE organization_id=?";
 		System.out.println("Search info organization in DB by organization_id");
@@ -273,7 +402,7 @@ public class Equipment {
 	}
 	
 	public static List<Guarantee> find_guar(Connection conn) throws SQLException {
-		String sql = "SELECT  g.guarantee_id, v.date, o.org_name, v.month, v.contract " + "FROM guarantee g "
+		String sql = "SELECT  g.guarantee_id, v.date, o.org_name, v.month, v.contract, v.validity_info " + "FROM guarantee g "
 				+ "INNER JOIN validity v ON v.validity_id=g.validity_id "
 				+ "INNER JOIN organization o ON o.organization_id=g.organization_id " + "ORDER BY v.date";
 		System.out.println("Search info Guarantee in DB");
@@ -287,14 +416,16 @@ public class Equipment {
 			String org_name = rs.getString("org_name");
 			Integer month = rs.getInt("month");
 			String contract = rs.getString("contract");
+			String validity_info = rs.getString("validity_info");
 
-			Guarantee us = new Guarantee(guarantee_id, date, org_name, month, contract);
+			Guarantee us = new Guarantee(guarantee_id, date, org_name, month, contract, validity_info);
 
 			us.setguarantee_id(guarantee_id);
 			us.setdate(date);
 			us.setorg_name(org_name);
 			us.setmonth(month);
 			us.setcontract(contract);
+			us.setvalidity_info(validity_info);
 			list.add(us);
 		}
 		return list;
@@ -315,14 +446,15 @@ public class Equipment {
 			String org_name = rs.getString("org_name");
 			Integer month = rs.getInt("month");
 			String contract = rs.getString("contract");
-
-			Guarantee us = new Guarantee(guarantee_id, date, org_name, month, contract);
+			String validity_info = rs.getString("validity_info");
+			Guarantee us = new Guarantee(guarantee_id, date, org_name, month, contract, validity_info);
 
 			us.setguarantee_id(guarantee_id);
 			us.setdate(date);
 			us.setorg_name(org_name);
 			us.setmonth(month);
 			us.setcontract(contract);
+			us.setvalidity_info(validity_info);
 			list.add(us);
 		}
 		return list;
@@ -342,7 +474,8 @@ public class Equipment {
 		return us;
 	}
 
-	public static Integer validity_add(Connection conn, Validity validity) throws SQLException {
+
+	public static Integer validity_add(Connection conn, Validity validity, String user_name) throws SQLException {
 		String sql = "Insert into validity (date, month, org_name, contract, validity_info) values (?,?,?,?,?)";
 
 		PreparedStatement add = conn.prepareStatement(sql);
@@ -366,6 +499,16 @@ public class Equipment {
 		if (rs.next()) {
 			validity_id = rs.getInt("validity_id");
 		}
+		System.out.println("validity_id: " + validity_id);
+		if (validity_id !=0) {
+			
+			Logsql logsql = new Logsql();			
+			logsql.setdate(date_time.date());			
+			logsql.setuser_name(user_name);
+			logsql.setsql_code("Insert into validity (date, month, org_name, contract, validity_info) values ("+validity.getdate()+","+validity.getmonth()+","+validity.getorg_name()+","+validity.getcontract()+","+validity.getvalidity_info()+")");
+		
+			Equipment.add_logsql(conn, logsql);
+		} 
 		
 		return validity_id;
 	}
@@ -383,22 +526,52 @@ public class Equipment {
 		return count;
 	}
 
-	public static void add_received(Connection conn, Received add_received) throws SQLException {
+	public static void add_received(Connection conn, Received add_received, String user_name) throws SQLException {
 		String sql = "Insert into received (sn,  group_id, guarantee_id) values (?,?,?)";
-
+		System.out.println("add_received DB");
 		PreparedStatement add = conn.prepareStatement(sql);
-
-		System.out.println("getsn() - " + add_received.getsn());
-		System.out.println("getgroup_id() - " + add_received.getgroup_id());
-		System.out.println("guarantee_id() - " + add_received.getguarantee_id());
 
 		add.setString(1, add_received.getsn());
 		add.setInt(2, add_received.getgroup_id());
 		add.setInt(3, add_received.getguarantee_id());
 
 		add.executeUpdate();
+		
+		Logsql logsql = new Logsql();			
+		logsql.setdate(date_time.date());			
+		logsql.setuser_name(user_name);
+		logsql.setsql_code("Insert into received (sn,  group_id, guarantee_id) values ("+add_received.getsn()+","+add_received.getgroup_id()+","+add_received.getguarantee_id()+")");
+	
+		Equipment.add_logsql(conn, logsql);
 	}
 
+	
+	public static void add_history(Connection conn, History history) throws SQLException {
+		String sql = "Insert into history (sn, date,  status, organization) values (?,?,?,?)";
+		System.out.println("add_history DB");
+		PreparedStatement add = conn.prepareStatement(sql);
+		
+		add.setString(1, history.getsn());
+		add.setString(2, date_time.date());
+		add.setString(3, history.getstatus());
+		add.setString(4, history.getorganization());
+
+		add.executeUpdate();
+	}
+	
+	public static void add_logsql(Connection conn, Logsql logsql) throws SQLException {
+		String sql = "Insert into logsql (user_name, date,  sql_code) values (?,?,?)";
+		System.out.println("add_logsql DB");
+		PreparedStatement add = conn.prepareStatement(sql);
+
+		add.setString(1, logsql.getuser_name());
+		add.setString(2, logsql.getdate());
+		add.setString(3, logsql.getsql_code());
+
+		add.executeUpdate();
+	}
+	
+	
 	public static List<Received> find_er(Connection conn) throws SQLException {
 		String sql = "SELECT r.equipment_id, r.sn, g.group_info, o.org_name, v.contract "
 				+ "FROM received r, groups g, guarantee gua, organization o, validity v "
@@ -422,13 +595,52 @@ public class Equipment {
 			us.setsn(sn);
 			us.setgroup_info(group_info);
 			us.setorg_name(org_name);
-			us.setorg_name(contract);
+			us.setcontract(contract);
 			list.add(us);
 		}
 		return list;
 	}
 
-	public static void group_add(Connection conn, Groups groups) throws SQLException {
+	public static List<String> find_sn_er(Connection conn) throws SQLException {
+		System.out.println("Search info find_sn_er in DB");
+		String sql = "SELECT sn FROM received";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		ResultSet rs = pstm.executeQuery();
+		List<String> list = new ArrayList<String>();
+		while (rs.next()) {
+			String sn = rs.getString("sn");
+			list.add(sn);
+		}
+		return list;
+	}
+	
+
+	public static List<String> find_history_status(Connection conn) throws SQLException {
+		System.out.println("Search info find_sn_er in DB");
+		List<String> history = new ArrayList<String>();
+		String sql = "Select count(*) from history";
+		PreparedStatement pstm = conn.prepareStatement(sql);
+		Integer count = null;
+		ResultSet rs = pstm.executeQuery();
+		while (rs.next()) {
+			count = rs.getInt("count");
+		}
+		if (count>0) {
+		
+		sql = "SELECT  status FROM history";
+		pstm = conn.prepareStatement(sql);
+		rs = pstm.executeQuery();
+		if (rs.next()) {
+			history.add(rs.getString("status"));	
+		}
+		else { 
+			history=null;
+		}
+		}
+		return history;
+	}
+	
+	public static void group_add(Connection conn, Groups groups, String user_name) throws SQLException {
 		String sql = "Insert into groups (description,  model, group_info) values (?,?,?)";
 
 		PreparedStatement add = conn.prepareStatement(sql);
@@ -438,10 +650,17 @@ public class Equipment {
 		add.setString(3, groups.getgroup_info());
 
 		add.executeUpdate();
+		
+		Logsql logsql = new Logsql();			
+		logsql.setdate(date_time.date());			
+		logsql.setuser_name(user_name);
+		logsql.setsql_code("Insert into groups (description,  model, group_info) values ("+groups.getdescription()+","+groups.getmodel()+","+groups.getgroup_info()+")");
+	
+		Equipment.add_logsql(conn, logsql);
 
 	}
 
-	public static Integer org_add(Connection conn, Org org) throws SQLException {
+	public static Integer org_add(Connection conn, Org org, String user_name) throws SQLException {
 		String sql = "Insert into organization (org_name, tel, address, organization_info) values (?,?,?,?)";
 
 		PreparedStatement add = conn.prepareStatement(sql);
@@ -465,11 +684,21 @@ public class Equipment {
 			organization_id = rs.getInt("organization_id");
 		}
 		
+if (organization_id !=0) {
+			
+			Logsql logsql = new Logsql();			
+			logsql.setdate(date_time.date());			
+			logsql.setuser_name(user_name);
+			logsql.setsql_code("Insert into organization (org_name, tel, address, organization_info) values ("+org.getorg_name()+","+org.gettel()+","+org.getaddress()+","+org.getorganization_info()+")");
+		
+			Equipment.add_logsql(conn, logsql);
+		} 
+		
 		return organization_id;
 		
 	}
 	
-	public static void guarantee_add(Connection conn, Integer organization_id, Integer validity_id) throws SQLException {
+	public static void guarantee_add(Connection conn, Integer organization_id, Integer validity_id, String user_name) throws SQLException {
 		System.out.println("Insert guarantee in DB for organization_id ("+organization_id+") validity_id("+validity_id+")");
 		String sql = "Insert into guarantee (organization_id, validity_id) values (?,?)";
 
@@ -478,8 +707,14 @@ public class Equipment {
 		add.setInt(1, organization_id);
 		add.setInt(2,validity_id);
 		
-
 		add.executeUpdate();
+		
+		Logsql logsql = new Logsql();			
+		logsql.setdate(date_time.date());			
+		logsql.setuser_name(user_name);
+		logsql.setsql_code("Insert into guarantee (organization_id, validity_id) values ("+organization_id+","+validity_id+")");
+	
+		Equipment.add_logsql(conn, logsql);
 	}
 	
 	public static Integer find_guar_orgid_valid(Connection conn, Integer organization_id, Integer validity_id) throws SQLException {

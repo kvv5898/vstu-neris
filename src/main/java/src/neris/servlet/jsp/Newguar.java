@@ -47,12 +47,31 @@ public class Newguar extends HttpServlet {
 		Integer organization_id = null;
 		Integer validity_id = null;
 		String Step = "Error";
+		
+		
+		if (request.getParameter("back") != null) {
+			System.out.println("Back on Addguarstep1");
+			Step = "Addguarstep1";
+			List<Org> org = null;
+			try {
+				org = Equipment.find_org(conn);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			request.setAttribute("org", org);
+			request.setAttribute("color", "green");
+
+		}
+		
+		else if (request.getParameter("submit") != null) {
 		Org org = new Org(organization_id, (String) request.getParameter("org_name"),
 				(String) request.getParameter("tel"), (String) request.getParameter("address"),
 				(String) request.getParameter("organization_info"));
 
 		try {
-			organization_id = Equipment.org_add(conn, org);
+			organization_id = Equipment.org_add(conn, org,logUser.getlogUser(session).getuser_name());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,7 +84,7 @@ public class Newguar extends HttpServlet {
 				(String) request.getParameter("validity_info"));
 
 		try {
-			validity_id = Equipment.validity_add(conn, validity);
+			validity_id = Equipment.validity_add(conn, validity,logUser.getlogUser(session).getuser_name());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,7 +104,7 @@ public class Newguar extends HttpServlet {
 		else {
 
 			try {
-				Equipment.guarantee_add(conn, organization_id, validity_id);
+				Equipment.guarantee_add(conn, organization_id, validity_id,logUser.getlogUser(session).getuser_name());
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -102,13 +121,21 @@ public class Newguar extends HttpServlet {
 				error_guar = e.getMessage();
 			}
 			Step = "Step3";
-			request.setAttribute("sn", request.getParameter("sn"));
-			request.setAttribute("group_id", request.getParameter("group_id"));
-			request.setAttribute("group_info", request.getParameter("group_info"));
 			request.setAttribute("guar", guar);
 			request.setAttribute("errorguar", error_guar);
 		}
+		}
+		else {
+			Step = "Error";
 
+		}
+		
+		request.setAttribute("sn", request.getParameter("sn"));
+		request.setAttribute("group_id", request.getParameter("group_id"));
+		request.setAttribute("group_info", request.getParameter("group_info"));
+		request.setAttribute("sizegr", request.getParameter("sizegr"));
+		
+		
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 		dispatcher.forward(request, response);
 	}

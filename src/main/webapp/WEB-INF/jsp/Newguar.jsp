@@ -24,9 +24,21 @@
     <p style="color: red;">${errorguar}</p>
 </div>
  
-<form method="POST" action="${pageContext.request.contextPath}/Newguar">
+ 
+ <form method="POST" id="form1" action="${pageContext.request.contextPath}/Newguar">
+<p><input type="hidden" name="sn" value="${sn}"></p>
+<p><input type="hidden" name="group_id" value="${group_id}"/>
+<input type="hidden" name="sizegr" value="${sizegr}"/>
+<input type="hidden"  name="group_info" value="${group_info}"/></p>
+<input type="hidden"  name="org_organization_id" value="${org_organization_id}"/>
+<p><input type="hidden" name="org_name" value="${org_name}"/></p>
+</form> 
+ 
+ 
+<form method="POST" id="form2" action="${pageContext.request.contextPath}/Newguar">
 <p><input type="hidden" readonly="readonly" name="sn" value="${sn}"></p>
 <p><input type="hidden" readonly="readonly" name="group_id" value="${group_id}"/>
+<input type="hidden" name="sizegr" value="${sizegr}"/>
 <input type="hidden" readonly="readonly" name="group_info" value="${group_info}"/></p>
 <input type="hidden" readonly="readonly" name="org_organization_id" value="${org_organization_id}"/>
 <p>Организация: <input type="text" style="border: 0" readonly="readonly" name="org_name" value="${org_name}"/></p>
@@ -52,9 +64,9 @@
                <td><input type="text" name="validity_info" placeholder="условие гарантии" required class="filterInput"></td>
 </tr>
                </table>
- <input type="submit" value="Далее" name="submit" />
    </form>
-   
+ <input type="submit" value="Добавить" name="submit" style="background: green;" form="form2"/>
+ <input type="submit" value="Назад" name="back" style="background: red;" form="form1"/>  
   
             <div class="footer">
         <jsp:include page="_footer.jsp"></jsp:include>

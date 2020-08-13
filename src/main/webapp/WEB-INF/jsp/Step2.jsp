@@ -43,7 +43,7 @@
             <tr>
                 <td>
                     <select name="gr" required style="border-color:  ${color};">
-                            <option disabled selected>Выберите группу</option>
+                            <option disabled selected >Выберите группу</option>
                             <c:forEach items="${gr}" var="gr">
                                 <option value="${gr.group_id}"> ${gr.description} / ${gr.model} / ${gr.group_info}/
                                 </option>

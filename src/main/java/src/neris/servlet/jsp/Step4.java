@@ -1,8 +1,6 @@
 package src.neris.servlet.jsp;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,9 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import src.neris.log.logUser;
-import src.neris.tabl.Received;
-import src.sql.Equipment;
 
 @WebServlet(urlPatterns = { "/Step4" })
 public class Step4 extends HttpServlet {
@@ -28,8 +23,21 @@ public class Step4 extends HttpServlet {
 			throws ServletException, IOException {
 
 		System.out.println("doGet Step4 ");
-
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step4.jsp");
+		String Step = "Error";
+		if ( request.getParameter("sn") == null) {
+			Step = "Step1";
+		}
+				else if (request.getParameter("group_id") == null) {
+					Step = "Step2";
+				}
+				else if (request.getParameter("guarantee_id") == null) {
+					Step = "Step3";
+				}
+		
+		else {
+			Step = "Step4";
+		}
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
 
 		dispatcher.forward(request, response);
 	}
@@ -37,42 +45,8 @@ public class Step4 extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Connection conn = logUser.getStoredConnection(request.getSession());
-		String sn = (String) request.getParameter("sn");
-		String group_idstr = (String) request.getParameter("group_id");
-		Integer group_id = Integer.parseInt(group_idstr);
-		String guarantee_idstr = (String) request.getParameter("guarantee_id");
-		Integer guarantee_id = Integer.parseInt(guarantee_idstr);
-
-		Integer count_find_received_sn = null;
-		try {
-			count_find_received_sn = Equipment.find_received_sn(conn, sn);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		if (count_find_received_sn == 0) {
-			String errorString = null;
-			Received add_received = new Received();
-			add_received.setsn(sn);
-			add_received.setgroup_id(group_id);
-			add_received.setguarantee_id(guarantee_id);
-
-			try {
-				Equipment.add_received(conn, add_received);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				errorString = e.getMessage();
-			}
-
-			request.setAttribute("errorString", errorString);
-
-		} else {
-			request.setAttribute("error", "Incorrect (SN - duplicate)");
-		}
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step5.jsp");
-		dispatcher.forward(request, response);
+		
+		
+		
 	}
 }

@@ -27,7 +27,6 @@ public class Error extends HttpServlet {
 		System.out.println("doGet Error ");
 
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
-
 		dispatcher.forward(request, response);
 	}
 		
@@ -37,7 +36,7 @@ public class Error extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		
+		System.out.println("doPost Error ");
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Error.jsp");
 		dispatcher.forward(request, response);
 	}

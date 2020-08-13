@@ -30,8 +30,15 @@ public class Addguarstep1 extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addguarstep1.jsp");
+		
+		String Step = "Error";
+		if ( request.getParameter("sn") != null) {
+			Step = "Addguarstep1";
+		}
+		else {
+			Step = "Step1";
+		}
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
 
 		dispatcher.forward(request, response);
 
@@ -120,6 +127,7 @@ public class Addguarstep1 extends HttpServlet {
 		request.setAttribute("sn", request.getParameter("sn"));
 		request.setAttribute("group_id", request.getParameter("group_id"));
 		request.setAttribute("group_info", request.getParameter("group_info"));
+		request.setAttribute("sizegr", request.getParameter("sizegr"));
 		request.setAttribute("org_name", org_name);
 		request.setAttribute("error", error);
 		request.setAttribute("color", color);

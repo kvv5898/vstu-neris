@@ -9,6 +9,7 @@ public class Guarantee {
 	private String org_name;
 	private Integer month;
 	private String contract;
+	private String validity_info;
 	
 
 	public Guarantee (Integer guarantee_id, Integer organization_id, Integer validity_id) 
@@ -18,12 +19,13 @@ public class Guarantee {
 		this.validity_id = validity_id;
 	}
 
-	public Guarantee(Integer guarantee_id, String date, String org_name, Integer month, String contract) {
+	public Guarantee(Integer guarantee_id, String date, String org_name, Integer month, String contract, String validity_info) {
 		this.guarantee_id = guarantee_id;
 		this.date = date;
 		this.org_name = org_name;
 		this.month = month;
 		this.contract = contract;
+		this.validity_info = validity_info;
 		
 	}
 
@@ -82,5 +84,13 @@ public class Guarantee {
 
 	public void setcontract(String contract) {
 		this.contract = contract;
+	}
+	
+	public String getvalidity_info() {
+		return validity_info;
+	}
+
+	public void setvalidity_info(String validity_info) {
+		this.validity_info = validity_info;
 	}
 }

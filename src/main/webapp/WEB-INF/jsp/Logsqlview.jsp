@@ -9,28 +9,26 @@
 
 <head>
 <meta charset="UTF-8">
-<title>New View</title>
+<title>Log SQL</title>
 
 </head>
 <body>
 <jsp:include page="_header.jsp"></jsp:include>
 <p style="color: red;">${errorString}</p>
-	<strong>Поступившее оборудование:</strong>
+	<strong>Журнал SQL запросов:</strong>
 	<table border="1">
 	<thead>
-	<th>ID оборудования</th>
-	<th>Серийный номер</th>
-	<th>Группа</th>
-	<th>Организация</th>
-	<th>Гарантийный кантракт</th>
+	<th>Log ID</th>
+	<th>User Name</th>
+	<th>Date</th>
+	<th>SQL code</th>
 		</thead> 
-		<c:forEach var="add" items="${add}">
+		<c:forEach var="logsql" items="${logsql}">
 			<tr>
-				<td>${add.equipment_id}</td>
-				<td>${add.sn}</td>
-				<td>${add.group_info}</td>
-				<td>${add.org_name}</td>
-				<td>${add.contract}</td>
+				<td>${logsql.log_id}</td>
+				<td>${logsql.user_name}</td>
+				<td>${logsql.date}</td>
+				<td>${logsql.sql_code}</td>
 			</tr>
 		</c:forEach>
 	</table>

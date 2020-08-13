@@ -4,28 +4,14 @@
 <!DOCTYPE html>
 <html>
 <style>
-
-.header {
-            left: 0;
-            top: 0;
-            width: 100%;
-        }
-
-.footer {
-            position: fixed;
-            /* Фиксированное положение */
-            right: 0;
-            bottom: 0;
-            /* Левый нижний угол */
-            width: 100%;
-        }
-        
-   .center {
+<%@include file='styles/div.css' %>
+.center {
 	position: absolute;
+	width: 100%;
+	top: 50%;
 	text-align: center;
 	animation: blink 2s infinite;
 	text-align: center;
-	color: red;
 }
 
 @keyframes blink {from { opacity:0;
@@ -46,7 +32,7 @@ to {
         <br>
         </div>
 	<div class="center">
-		<P>ERROR</P>
+		<P style="color: red;">ERROR</P>
 	</div>
 	 <div class="footer">
         <jsp:include page="_footer.jsp"></jsp:include>

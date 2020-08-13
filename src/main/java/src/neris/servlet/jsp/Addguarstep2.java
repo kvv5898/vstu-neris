@@ -31,8 +31,15 @@ public class Addguarstep2 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addguarstep2.jsp");
-
+		String Step = "Error";
+		if ( request.getParameter("sn") != null) {
+			Step = "Addguarstep2";
+		}
+		else {
+			Step = "Step1";
+		}
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
+		
 		dispatcher.forward(request, response);
 
 	}
@@ -126,7 +133,7 @@ public class Addguarstep2 extends HttpServlet {
 								Step = "Step3";
 								Msg = "guarantee_add successfully";
 								try {
-									Equipment.guarantee_add(conn, (org.get(0).getorganization_id()), validity_id);
+									Equipment.guarantee_add(conn, (org.get(0).getorganization_id()), validity_id,logUser.getlogUser(session).getuser_name());
 								} catch (SQLException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();

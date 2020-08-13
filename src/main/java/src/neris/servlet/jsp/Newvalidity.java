@@ -58,7 +58,7 @@ public class Newvalidity extends HttpServlet {
 			validity.setvalidity_info(request.getParameter("validity_info"));
 			
 			try {
-				validity_id=Equipment.validity_add(conn, validity);
+				validity_id=Equipment.validity_add(conn, validity,logUser.getlogUser(session).getuser_name());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -29,12 +29,15 @@ public class Step2 extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("doGet Step2 ");
-		if (request.getParameter("back") != null) {
-			request.setAttribute("sn", request.getParameter("sn"));
+		System.out.println("doGet Step2: ");
+		String Step = "Error";
+		if ( request.getParameter("sn") != null) {
+			Step = "Step2";
 		}
-
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step2.jsp");
+		else {
+			Step = "Step1";
+		}
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
 
 		dispatcher.forward(request, response);
 	}
@@ -44,7 +47,10 @@ public class Step2 extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Connection conn = logUser.getStoredConnection(session);
-
+		String sn = (String) request.getParameter("sn");
+		System.out.println("sn - " + sn);
+		String Step = null;
+		System.out.println("doPost Step2 ");
 		if (request.getParameter("Addgroups") != null) {
 
 			for (int i = 0; i < Groups.class.getDeclaredFields().length; i++) {
@@ -64,17 +70,18 @@ public class Step2 extends HttpServlet {
 
 			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addgroups.jsp");
 			dispatcher.forward(request, response);
-		} else {
-
-			String sn = (String) request.getParameter("sn");
-			System.out.println("sn - " + sn);
+		} 
+		
+		
+		else if (request.getParameter("submit") != null) {
+			System.out.println("doPost Step2 submit: ");
+						
 			System.out.println("gr: " + request.getParameter("gr"));
 			String GRstr = (String) request.getParameter("gr");
-			String Step = null;
 			List<Groups> gr = null;
 			Integer group_id = null;
 			String group_info = null;
-			Integer size = null;
+			Integer sizegr = null;
 			String error_gr = null;
 			List<Guarantee> guar = null;
 
@@ -104,13 +111,13 @@ public class Step2 extends HttpServlet {
 					e.printStackTrace();
 					error_guar = e.getMessage();
 				}
-				size = group_info.length() + 3;
+				sizegr = group_info.length() + 3;
 				System.out.println("group_info: " + group_info);
-				System.out.println("size group_info: " + size);
-
+				System.out.println("size group_info: " + sizegr);
+				request.setAttribute("errorgr", error_gr);
 				request.setAttribute("group_id", group_id);
 				request.setAttribute("group_info", group_info);
-				request.setAttribute("size", size);
+				request.setAttribute("sizegr", sizegr);
 				request.setAttribute("guar", guar);
 				request.setAttribute("errorguar", error_guar);
 				request.setAttribute("color", "green");
@@ -130,12 +137,15 @@ public class Step2 extends HttpServlet {
 				request.setAttribute("color", "red");
 				Step = "Step2";
 			}
-
-			request.setAttribute("sn", sn);
-			request.setAttribute("errorgr", error_gr);
-			RequestDispatcher dispatcher = this.getServletContext()
-					.getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
-			dispatcher.forward(request, response);
+					}
+		else {
+			Step = "Error";
 		}
+		
+		
+		request.setAttribute("sn", sn);
+		RequestDispatcher dispatcher = this.getServletContext()
+				.getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
+		dispatcher.forward(request, response);
 	}
 }

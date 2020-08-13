@@ -56,10 +56,22 @@ values ('2020-06-25', '36', 'Linkinpark', '5654AAZ', 'постгарантия �
 create table history
 (
 history_id SERIAL PRIMARY KEY,
-equipment_id VARCHAR(256) NOT null,
+sn TEXT NOT null,
+date TEXT NOT null,
 status TEXT NOT null,
-organization_id VARCHAR(256)
+organization TEXT NOT null
 );
+
+create table logsql
+(
+log_id SERIAL PRIMARY KEY,
+user_name TEXT NOT null,
+date TEXT NOT null,
+sql_code TEXT NOT null
+);
+
+
+
 
 create table user_account
 (

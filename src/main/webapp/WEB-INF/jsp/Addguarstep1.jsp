@@ -26,13 +26,15 @@
 <form method="POST" id="form1" action="${pageContext.request.contextPath}/Addguarstep1">
 <input type="hidden" name="sn" value="${sn}">
 <input type="hidden" name="group_id" value="${group_id}"/>
-<input type="hidden" name="group_info" value="${group_info}"/>  
+<input type="hidden" name="group_info" value="${group_info}"/>
+<input type="hidden" name="sizegr" value="${sizegr}"/>  
 </form> 
  
 <form method="POST" id="form2" action="${pageContext.request.contextPath}/Addguarstep1"> 
 <input type="hidden" name="sn" value="${sn}">
 <input type="hidden" name="group_id" value="${group_id}"/>
-<input type="hidden" name="group_info" value="${group_info}"/>       
+<input type="hidden" name="group_info" value="${group_info}"/>  
+<input type="hidden" name="sizegr" value="${sizegr}"/>       
 <strong>Выберите или укажите название организации</strong>     
         <p><input type="text" list="org" name="org" required style="border-color: ${color}">
                <datalist id="org">

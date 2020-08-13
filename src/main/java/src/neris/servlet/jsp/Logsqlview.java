@@ -3,6 +3,7 @@ package src.neris.servlet.jsp;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,18 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import src.neris.log.logUser;
-import src.neris.tabl.Org;
-import src.neris.tabl.Validity;
-import src.other.date_time;
+import src.neris.tabl.Logsql;
 import src.sql.Equipment;
 
 
 
-@WebServlet(urlPatterns = { "/Addguarantee" })
-public class Addguarantee extends HttpServlet {
+@WebServlet(urlPatterns = { "/Logsqlview" })
+public class Logsqlview extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public Addguarantee() {
+	public Logsqlview() {
 		super();
 	}
 
@@ -35,29 +34,23 @@ public class Addguarantee extends HttpServlet {
 		
 		HttpSession session = request.getSession();
     	Connection conn = logUser.getStoredConnection(session);
-    	
-    	String errororg = null; 
-        String errorvalidity = null;
-        List<Org> org = null;
-        List<Validity> validity = null;
+        
+        String errorString = null;
+        List<Logsql> logsql = null;
+       
         try {
-        	org = Equipment.find_org(conn);
-        	validity=Equipment.find_validity(conn);
+			logsql = Equipment.find_logsql(conn);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
-        request.setAttribute("errororg", errororg);
-        request.setAttribute("errorvalidity", errorvalidity);
-		request.setAttribute("org", org);
-		request.setAttribute("validity", validity);
+      
+        request.setAttribute("errorString", errorString);
+        request.setAttribute("logsql", logsql);
 		
-		
-		String date = date_time.date();
-		request.setAttribute("date", date);
-		
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Addguarantee.jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Logsqlview.jsp");
+
 
 		dispatcher.forward(request, response);
 
@@ -67,15 +60,6 @@ public class Addguarantee extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		String ORG = (String) request.getParameter("ORG");
-		System.out.println("ORG " + ORG);
-		
-		String VALIDITY = (String) request.getParameter("VALIDITY");
-		System.out.println("VALIDITY " + VALIDITY);
-		String month = (String) request.getParameter("month");
-		System.out.println("month - " + month);
-		
 		doGet(request, response);
 	}
 }
-

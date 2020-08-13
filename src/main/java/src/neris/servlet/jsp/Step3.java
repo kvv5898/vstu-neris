@@ -29,28 +29,32 @@ public class Step3 extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("doGet Step3: " + request.getAttribute("back"));
-		
-		
-		if (request.getParameter("back") != null) {
-			request.setAttribute("sn", request.getParameter("sn"));
-			request.setAttribute("group_id", request.getParameter("group_id"));
-			request.setAttribute("group_info", request.getParameter("group_info"));
-			request.setAttribute("size", request.getParameter("size"));
+		System.out.println("doGet Step3: ");
+		String Step = "Error";
+		if ( request.getParameter("sn") == null) {
+			Step = "Step1";
 		}
-
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step3.jsp");
+				else if (request.getParameter("group_id") == null) {
+					Step = "Step2";
+				}
+		else {
+			Step = "Step3";
+		}
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
 
 		dispatcher.forward(request, response);
 	}
+	
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		HttpSession session = request.getSession();
 		Connection conn = logUser.getStoredConnection(session);
 		String Step = "Error";
-
+		String error = null;
+		System.out.println("doPost Step3 Addguarstep1:" + request.getParameter("Addguarstep1"));
 		if (request.getParameter("Addguarstep1") != null) {
 
 			List<Org> org = null;
@@ -65,14 +69,17 @@ public class Step3 extends HttpServlet {
 			request.setAttribute("org", org);
 			request.setAttribute("color", "green");
 
-		} else if (request.getParameter("submit") != null) {
+		}
+
+		else if (request.getParameter("submit") != null) {
 
 			String sn = (String) request.getParameter("sn");
+			System.out.println("doGet Step3 (count_find_received_sn):");
 			String group_idstr = (String) request.getParameter("group_id");
 			Integer group_id = Integer.parseInt(group_idstr);
-			String guarantee_idstr = (String) request.getParameter("guarantee_id");
+			String guarantee_idstr = (String) request.getParameter("guar");
 			Integer guarantee_id = Integer.parseInt(guarantee_idstr);
-
+			
 			Integer count_find_received_sn = null;
 			try {
 				count_find_received_sn = Equipment.find_received_sn(conn, sn);
@@ -80,31 +87,36 @@ public class Step3 extends HttpServlet {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-
+			System.out.println("doGet Step3 (count_find_received_sn):" + count_find_received_sn);
 			if (count_find_received_sn == 0) {
-				String errorString = null;
+				
 				Received add_received = new Received();
 				add_received.setsn(sn);
 				add_received.setgroup_id(group_id);
 				add_received.setguarantee_id(guarantee_id);
-
+				System.out.println("doGet Step3 add_received");
 				try {
-					Equipment.add_received(conn, add_received);
+					Equipment.add_received(conn, add_received,logUser.getlogUser(session).getuser_name());
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-					errorString = e.getMessage();
+					error = e.getMessage();
 				}
-
-				request.setAttribute("errorString", errorString);
+				Step = "Step4";
+				request.setAttribute("msg", "The operation was completed successfully!)");
 
 			} else {
 				request.setAttribute("error", "Incorrect (SN - duplicate)");
+				Step = "Step3";
 			}
-			RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Step5.jsp");
-			dispatcher.forward(request, response);
+			
 		}
 
+		
+		else if (request.getParameter("cancel") != null) {
+			Step = "Step2";
+		}
+		
 		else {
 			Step = "Error";
 		}
@@ -113,6 +125,7 @@ public class Step3 extends HttpServlet {
 		request.setAttribute("group_id", (String) request.getParameter("group_id"));
 		request.setAttribute("group_info", (String) request.getParameter("group_info"));
 		request.setAttribute("sizegr", ((String) request.getParameter("group_info")).length() + 3);
+		request.setAttribute("error", error);
 		request.setAttribute("sn", request.getParameter("sn"));
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 		dispatcher.forward(request, response);

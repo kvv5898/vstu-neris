@@ -17,26 +17,32 @@ import src.neris.log.logUser;
 import src.neris.tabl.Groups;
 import src.sql.Equipment;
 
-@WebServlet(urlPatterns = { "/Addgroups" })
-public class Addgroups extends HttpServlet {
+@WebServlet(urlPatterns = { "/Editgroups" })
+public class Editgroups extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	public Addgroups() {
+	public Editgroups() {
 		super();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("Addgroups doGet: ");
-		String Step = "Error";
-		if ( request.getParameter("sn") != null) {
-			Step = "Addgroups";
+		
+		System.out.println("Editgroups doGet: ");
+		HttpSession session = request.getSession();
+		Connection conn = logUser.getStoredConnection(session);
+		List<Groups> gr = null;
+		try {
+			gr=Equipment.find_groups(conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		else {
-			Step = "Step1";
-		}
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
+		
+		request.setAttribute("gr", gr);
+
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Editgroups.jsp");
 
 		dispatcher.forward(request, response);
 
@@ -47,7 +53,6 @@ public class Addgroups extends HttpServlet {
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Connection conn = logUser.getStoredConnection(session);
-		String group_add = null;
 		Integer count = 0;
 		String error = null;
 		String Step = "Error";
@@ -91,18 +96,18 @@ public class Addgroups extends HttpServlet {
 				}
 
 				if (count == 0) {
-					group_add = "group_add";
 					try {
 						Equipment.group_add(conn, groups,logUser.getlogUser(session).getuser_name());
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
+					Step = "Editgroups";
+					request.setAttribute("msg", "The add operation was completed successfully!");
 				}
 
 				else {
-					Step = "Addgroups";
+					Step = "Editgroups";
 					System.out.println("duplicate count: " + count);
 					error = "find_groups_duplicate! description -" + description + "; model -" + model + "; group_info -" + group_info + ". Repeat please!";
 					 
@@ -125,30 +130,31 @@ public class Addgroups extends HttpServlet {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						Step = "Addgroups";
+						Step = "Editgroups";
 						request.setAttribute(name_column, find);
 					}
 				}
 			}
 		}
 
-		if (request.getParameter("submit") == null || group_add == "group_add" ) {
-			List<Groups> gr = null;
-			try {
-				gr = Equipment.find_groups(conn);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				error = e.getMessage();
-			}
-			Step = "Step2";
-			request.setAttribute("gr", gr);
-			request.setAttribute("color", "green");
-
+		else if (request.getParameter("back") != null) {
+			Step = "HomeView";
 		}
 
+		else {
+			Step = "Error";
+		}
+		
+		List<Groups> gr = null;
+		try {
+			gr=Equipment.find_groups(conn);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		request.setAttribute("gr", gr);
 		request.setAttribute("error", error);
-		request.setAttribute("sn", request.getParameter("sn"));
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 		dispatcher.forward(request, response);
 	}
