@@ -12,10 +12,9 @@
   </head>
   
   <body>
-  
+   <div class="header">
         <jsp:include page="_header.jsp"></jsp:include>
-        <br>
-
+            </div>
   
 	<br>
 	<p>Активных сессии: ${active_sessions}</p>
@@ -56,7 +55,9 @@
 	</tr>
 	</c:forEach>
 	</table>
-        <jsp:include page="_footer.jsp"></jsp:include> 
+        <div class="footer">
+        <jsp:include page="_footer.jsp"></jsp:include>
+    </div>
   </body>
 
 </html>
