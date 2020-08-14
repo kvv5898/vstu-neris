@@ -28,15 +28,12 @@
  
  <div class="header">
         <jsp:include page="_header.jsp"></jsp:include>
-        <br>
             </div>
-            <div class="error">
+           
      <p style="color: green;">${msg}</p>       
-    <p style="color: red;">${error_gr}</p>
-    <br>
-    <p style="color: red;">${error_guar}</p>
-</div>
- 
+    <p style="color: red;">${error_gr}<br>${error_guar}<br>${error} </p>
+
+<br>
 <form method="POST" action="${pageContext.request.contextPath}/Step3">
 <p><strong>Серийный номер - </strong><input style="text-align: center;" type="text" readonly="readonly" name="sn" value="${sn}"> <strong style="color: green;"> - &#10004;</strong></p>
 <p><strong>Группа - </strong><input type="text" readonly="readonly" name="group_info" size="${sizegr}" value="${group_info}"/>
@@ -59,7 +56,7 @@
 <p> <input type="reset"/>
  <input type="submit" value="Добавить гарантийные обязательства" name="Addguarstep1"></p>
  <input type="submit" value="Добавить запись в БД" name="submit" style="background: green;">
- <input type="submit" value="Отмена" name="cancel" style="background: red;">
+ <input type="submit" value="Назад" name="cancel" style="background: red;">
    </form>
   
             <div class="footer">

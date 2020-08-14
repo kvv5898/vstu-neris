@@ -6,7 +6,7 @@ public class Received {
 	private String sn;
 	private Integer group_id;
 	private Integer guarantee_id;
-	private String group_info;
+	private String model;
 	private String org_name;
 	private String contract;
 	
@@ -24,11 +24,11 @@ public class Received {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Received (Integer equipment_id, String sn, String group_info, String org_name, String contract) 
+	public Received (Integer equipment_id, String sn, String model, String org_name, String contract) 
 	{
 		this.equipment_id = equipment_id;
 		this.sn = sn;
-		this.group_info = group_info;
+		this.model = model;
 		this.org_name = org_name;
 		this.contract = contract;
 	}
@@ -66,12 +66,12 @@ public class Received {
 	}
 
 
-public String getgroup_info() {
-	return group_info;
+public String getmodel() {
+	return model;
 }
 
-public void setgroup_info(String group_info) {
-	this.group_info = group_info;
+public void setmodel(String model) {
+	this.model = model;
 }
 
 public String getorg_name() {

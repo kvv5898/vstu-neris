@@ -43,4 +43,4 @@ return i;
 </html>
 
 <marquee behavior="scroll" direction="right" bgcolor="lightblue">
-	KVV production </marquee>
+	KVV production v.1.13 </marquee>

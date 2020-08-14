@@ -70,7 +70,7 @@
 	<thead>
 	<th>ID оборудования</th>
 	<th>Серийный номер</th>
-	<th>Группа</th>
+	<th>Модель</th>
 	<th>Организация</th>
 	<th>Гарантийный кантракт</th>
 		</thead> 
@@ -78,7 +78,7 @@
 			<tr>
 				<td>${add.equipment_id}</td>
 				<td>${add.sn}</td>
-				<td>${add.group_info}</td>
+				<td>${add.model}</td>
 				<td>${add.org_name}</td>
 				<td>${add.contract}</td>
 			</tr>

@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import src.neris.log.logUser;
+import src.neris.tabl.Groups;
+import src.neris.tabl.Guarantee;
 import src.neris.tabl.Org;
 import src.neris.tabl.Received;
 import src.sql.Equipment;
@@ -73,13 +75,16 @@ public class Step3 extends HttpServlet {
 
 		else if (request.getParameter("submit") != null) {
 
+			System.out.println("doGet Step3:");
 			String sn = (String) request.getParameter("sn");
-			System.out.println("doGet Step3 (count_find_received_sn):");
 			String group_idstr = (String) request.getParameter("group_id");
 			Integer group_id = Integer.parseInt(group_idstr);
 			String guarantee_idstr = (String) request.getParameter("guar");
-			Integer guarantee_id = Integer.parseInt(guarantee_idstr);
 			
+			
+			if (sn.length() != 0 & group_id != null & guarantee_idstr != null) {
+			
+			Integer guarantee_id = Integer.parseInt(guarantee_idstr);
 			Integer count_find_received_sn = null;
 			try {
 				count_find_received_sn = Equipment.find_received_sn(conn, sn);
@@ -109,23 +114,51 @@ public class Step3 extends HttpServlet {
 				request.setAttribute("error", "Incorrect (SN - duplicate)");
 				Step = "Step3";
 			}
+		}
+		  
+			else {
+				System.out.println("doGet Step3 group_info:" + request.getParameter("guar"));
+				List<Guarantee> guar = null;
+							
+
+				try {
+					guar = Equipment.find_guar(conn);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				request.setAttribute("guar", guar);
+				request.setAttribute("color", "red");
+				Step = "Step3";
+				error = "Incorrect (Guarantee - null)";
+			}
 			
+			request.setAttribute("group_id", (String) request.getParameter("group_id"));
+			request.setAttribute("group_info", (String) request.getParameter("group_info"));
+			request.setAttribute("sizegr", ((String) request.getParameter("group_info")).length() + 3);
+			request.setAttribute("error", error);
 		}
 
 		
 		else if (request.getParameter("cancel") != null) {
 			Step = "Step2";
+			List<Groups> gr = null;
+
+			try {
+				gr = Equipment.find_groups(conn);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			request.setAttribute("gr", gr);
 		}
 		
 		else {
 			Step = "Error";
 		}
 
-		
-		request.setAttribute("group_id", (String) request.getParameter("group_id"));
-		request.setAttribute("group_info", (String) request.getParameter("group_info"));
-		request.setAttribute("sizegr", ((String) request.getParameter("group_info")).length() + 3);
-		request.setAttribute("error", error);
 		request.setAttribute("sn", request.getParameter("sn"));
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 		dispatcher.forward(request, response);

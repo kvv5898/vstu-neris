@@ -573,7 +573,7 @@ public static Integer find_history_duplicate(Connection conn, History history) t
 	
 	
 	public static List<Received> find_er(Connection conn) throws SQLException {
-		String sql = "SELECT r.equipment_id, r.sn, g.group_info, o.org_name, v.contract "
+		String sql = "SELECT r.equipment_id, r.sn, g.model, o.org_name, v.contract "
 				+ "FROM received r, groups g, guarantee gua, organization o, validity v "
 				+ "WHERE r.group_id=g.group_id " + "AND r.guarantee_id=gua.guarantee_id "
 				+ "AND o.organization_id=gua.organization_id " + "AND v.validity_id=gua.validity_id";
@@ -585,15 +585,15 @@ public static Integer find_history_duplicate(Connection conn, History history) t
 
 			Integer equipment_id = rs.getInt("equipment_id");
 			String sn = rs.getString("sn");
-			String group_info = rs.getString("group_info");
+			String model = rs.getString("model");
 			String org_name = rs.getString("org_name");
 			String contract = rs.getString("contract");
 
-			Received us = new Received(equipment_id, sn, group_info, org_name, contract);
+			Received us = new Received(equipment_id, sn, model, org_name, contract);
 
 			us.setequipment_id(equipment_id);
 			us.setsn(sn);
-			us.setgroup_info(group_info);
+			us.setmodel(model);
 			us.setorg_name(org_name);
 			us.setcontract(contract);
 			list.add(us);
