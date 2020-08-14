@@ -53,6 +53,15 @@ public class Sngroup extends HttpServlet {
 			e.printStackTrace();
 		}
     	
+    	List<Received> list = null;
+        try {
+            list = Equipment.find_er(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+      
+        
+        request.setAttribute("add", list);
     	request.setAttribute("guarantee", guarantee);
     	request.setAttribute("groups", groups);
     	
@@ -60,6 +69,7 @@ public class Sngroup extends HttpServlet {
 		dispatcher.forward(request, response);
 
 	}
+
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -69,9 +79,10 @@ public class Sngroup extends HttpServlet {
     	Connection conn = logUser.getStoredConnection(session);
     	
 		String Step = "Error";
-		List<String> Error = new ArrayList<>();
 		
-		List<String> Msg = new ArrayList<>();
+		ArrayList<String> Error = new ArrayList<String>();
+		ArrayList<String> Msg = new ArrayList<String>();
+		
 		
 		
 		if (request.getParameter("submit") != null && request.getParameter("sn") != null && request.getParameter("groups") != null && request.getParameter("guarantee") != null ) {
@@ -121,6 +132,15 @@ public class Sngroup extends HttpServlet {
 				e.printStackTrace();
 			}
 	    	
+	    	List<Received> list = null;
+	        try {
+	            list = Equipment.find_er(conn);
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	      
+	        
+	        request.setAttribute("add", list);
 	    	request.setAttribute("error", Error);
 	    	request.setAttribute("msg", Msg);
 	    	request.setAttribute("guarantee", guarantee);

@@ -66,7 +66,24 @@
     <input type="button" value="Назад" style="background: red;" onClick='location.href="${pageContext.request.contextPath}/home"'></p>
    
     </form>
-    
+    <table align="center" border="1">
+	<thead>
+	<th>ID оборудования</th>
+	<th>Серийный номер</th>
+	<th>Группа</th>
+	<th>Организация</th>
+	<th>Гарантийный кантракт</th>
+		</thead> 
+		<c:forEach var="add" items="${add}">
+			<tr>
+				<td>${add.equipment_id}</td>
+				<td>${add.sn}</td>
+				<td>${add.group_info}</td>
+				<td>${add.org_name}</td>
+				<td>${add.contract}</td>
+			</tr>
+		</c:forEach>
+	</table>
 
     <div class="footer">
         <jsp:include page="_footer.jsp"></jsp:include>

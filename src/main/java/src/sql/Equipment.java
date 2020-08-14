@@ -528,7 +528,7 @@ public static Integer find_history_duplicate(Connection conn, History history) t
 
 	public static void add_received(Connection conn, Received add_received, String user_name) throws SQLException {
 		String sql = "Insert into received (sn,  group_id, guarantee_id) values (?,?,?)";
-		System.out.println("add_received DB");
+		System.out.println("add_received DB for SN: " + add_received.getsn());
 		PreparedStatement add = conn.prepareStatement(sql);
 
 		add.setString(1, add_received.getsn());
