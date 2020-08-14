@@ -30,15 +30,14 @@ public class Addguarstep1 extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		String Step = "Error";
-		if ( request.getParameter("sn") != null) {
+		if (request.getParameter("sn") != null) {
 			Step = "Addguarstep1";
-		}
-		else {
+		} else {
 			Step = "Step1";
 		}
-		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/"+Step+".jsp");
+		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 
 		dispatcher.forward(request, response);
 
@@ -55,11 +54,11 @@ public class Addguarstep1 extends HttpServlet {
 		Connection conn = logUser.getStoredConnection(session);
 		String org_name = request.getParameter("org");
 		System.out.println("doPost Addguarstep1: " + request.getParameter("back"));
-		if (request.getParameter("back") !=null) {
+		if (request.getParameter("back") != null) {
 			System.out.println("Back on Step3");
 			Step = "Step3";
 			List<Guarantee> guar = null;
-			
+
 			try {
 				guar = Equipment.find_guar(conn);
 			} catch (SQLException e) {
@@ -67,63 +66,62 @@ public class Addguarstep1 extends HttpServlet {
 				e.printStackTrace();
 				error = e.getMessage();
 			}
-			
+
 			request.setAttribute("guar", guar);
-			
+
 		}
-		
+
 		else {
-			
-		
-		if (org_name.length() != 0) {
-			System.out.println("doPost Addguarstep1: " + org_name);
-			Step = "Error";
-			List<Org> org = null;
-			try {
-				org=Equipment.find_name_org(conn, org_name);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if (org==null) {
-				Step = "Newguar";
-				request.setAttribute("org_name", org_name);
-				color = "green";
-			}
-			else {
-				
-				List<Validity> validity = null;
+
+			if (org_name.length() != 0) {
+				System.out.println("doPost Addguarstep1: " + org_name);
+				Step = "Error";
+				List<Org> org = null;
 				try {
-					validity = Equipment.find_validity_for_org(conn, org_name);
+					org = Equipment.find_name_org(conn, org_name);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Step = "Addguarstep2";
-				request.setAttribute("org_organization_id", org.get(0).getorganization_id());
-				request.setAttribute("org_info", org.get(0).getorg_name() + org.get(0).gettel() + org.get(0).getorganization_info());
-				request.setAttribute("validity", validity);
-				color = "green";
+				if (org == null) {
+					Step = "Newguar";
+					request.setAttribute("org_name", org_name);
+					color = "green";
+				} else {
+
+					List<Validity> validity = null;
+					try {
+						validity = Equipment.find_validity_for_org(conn, org_name);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Step = "Addguarstep2";
+					request.setAttribute("org_organization_id", org.get(0).getorganization_id());
+					request.setAttribute("org_info",
+							org.get(0).getorg_name() + org.get(0).gettel() + org.get(0).getorganization_info());
+					request.setAttribute("validity", validity);
+					color = "green";
+				}
+			}
+
+			else {
+				System.out.println("Addguarstep1: ");
+				List<Org> org = null;
+				try {
+					org = Equipment.find_org(conn);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				request.setAttribute("org", org);
+				Step = "Addguarstep1";
+				error = "incorect data";
+				color = "red";
 			}
 		}
 
-		else {
-			System.out.println("Addguarstep1: ");
-			List<Org> org = null;
-			try {
-				org = Equipment.find_org(conn);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			request.setAttribute("org", org);
-			Step = "Addguarstep1";
-			error = "incorect data";
-			color = "red";
-		}
-		}
-		
 		request.setAttribute("sn", request.getParameter("sn"));
 		request.setAttribute("group_id", request.getParameter("group_id"));
 		request.setAttribute("group_info", request.getParameter("group_info"));
