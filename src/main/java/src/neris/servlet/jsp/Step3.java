@@ -133,11 +133,7 @@ public class Step3 extends HttpServlet {
 				Step = "Step3";
 				error = "Incorrect (Guarantee - null)";
 			}
-			
-			request.setAttribute("group_id", (String) request.getParameter("group_id"));
-			request.setAttribute("group_info", (String) request.getParameter("group_info"));
-			request.setAttribute("sizegr", ((String) request.getParameter("group_info")).length() + 3);
-			request.setAttribute("error", error);
+						
 		}
 
 		
@@ -159,6 +155,10 @@ public class Step3 extends HttpServlet {
 			Step = "Error";
 		}
 
+		request.setAttribute("group_id", (String) request.getParameter("group_id"));
+		request.setAttribute("group_info", (String) request.getParameter("group_info"));
+		request.setAttribute("sizegr", ((String) request.getParameter("group_info")).length() + 3);
+		request.setAttribute("error", error);
 		request.setAttribute("sn", request.getParameter("sn"));
 		RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/" + Step + ".jsp");
 		dispatcher.forward(request, response);

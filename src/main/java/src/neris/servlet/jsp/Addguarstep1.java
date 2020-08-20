@@ -31,6 +31,8 @@ public class Addguarstep1 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		System.out.println("doGet Addguarstep1: " + request.getParameter("group_id"));
+		
 		String Step = "Error";
 		if (request.getParameter("sn") != null) {
 			Step = "Addguarstep1";
