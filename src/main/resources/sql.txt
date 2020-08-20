@@ -88,6 +88,12 @@ PASSWORD  VARCHAR(30) not null,
 Rule VARCHAR(10) not null
 );
 
+insert into user_account (date, surname, first_name, otchestvo, otdel, tel, email, user_name, password, rule)
+values ('2020-08-20', 'Admin', 'Admin', 'Admin', 'Admin', 'Admin', 'Admin', 'Admin', 'Admin', 'Admin');
+
+insert into user_account (date, surname, first_name, otchestvo, otdel, tel, email, user_name, password, rule)
+values ('2020-08-20', 'User1', 'User1', 'User1', 'User1', 'User1', 'User1', 'User1', 'Admin', 'User');
+
 create table auth
 (
 id SERIAL PRIMARY KEY,
