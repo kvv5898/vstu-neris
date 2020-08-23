@@ -67,7 +67,7 @@ public class Equipment {
 
 	public static Integer find_org_duplicate(Connection conn, Org org) throws SQLException {
 
-		String sql = "Select count(*) from organization WHERE org_name =? AND tel =? AND address =?";
+		String sql = "Select count(*) from organization WHERE org_name =? or tel =? or address =?";
 		System.out.println("Search find_org_duplicate in DB: " );
 		PreparedStatement pstm = conn.prepareStatement(sql);
 
