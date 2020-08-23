@@ -101,9 +101,9 @@ public class Editorg extends HttpServlet {
 				}
 
 				else {
-					Step = "Editgroups";
+					Step = "Editorg";
 					System.out.println("duplicate count: " + count);
-					error = "find_groups_duplicate! org_name -" + org_name + "; tel -" + tel + "; address -" + address + ". Repeat please!";
+					error = "find_Eorg_duplicate! org_name -" + org_name + "; tel -" + tel + "; address -" + address + ". Repeat please!";
 					 
 				}
 			}
